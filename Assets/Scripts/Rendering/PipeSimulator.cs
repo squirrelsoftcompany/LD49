@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//[ExecuteInEditMode]
 public class PipeSimulator : MonoBehaviour
 {
     public Transform otherConnector;
@@ -9,10 +10,13 @@ public class PipeSimulator : MonoBehaviour
     //Line renderer used to display the rope
     private LineRenderer lineRenderer;
     
-    private float bForwardFactor = 0f;
-    private float bUpFactor = 0f;
-    private float cForwardFactor = 0f;
-    private float cUpFactor = 0f;
+    private float connecterForwardFactor = 0f;
+    private float connectorUpFactor = 0f;
+    private float otherForwardFactor = 0f;
+    private float otherUpFactor = 0f;
+
+    private float middleForwardFactor = 0f;
+    private float middleUpFactor = 0f;
 
     //A list with all rope sections
     private List<Vector3> allRopeSections = new List<Vector3>();
@@ -24,42 +28,50 @@ public class PipeSimulator : MonoBehaviour
         lineRenderer = GetComponent<LineRenderer>();
 
         //Init factors
-        bForwardFactor = Random.Range(0.1f, 0.5f) * (Random.value > 0.5 ? -1 : 1);
-        bUpFactor = Random.Range(0.1f, 0.25f) * (Random.value > 0.5 ? -1 : 1);
-        cForwardFactor = Random.Range(0.1f, 0.5f) * (Random.value > 0.5 ? -1 : 1);
-        cUpFactor = Random.Range(0.1f, 0.25f) * (Random.value > 0.5 ? -1 : 1);
+        connecterForwardFactor = Random.Range(0.1f, 0.4f);
+        connectorUpFactor = Random.Range(-0.1f, 0.1f);
+        otherForwardFactor = Random.Range(0.1f, 0.4f);
+        otherUpFactor = Random.Range(-0.1f, 0.1f);
+
+        middleForwardFactor = Random.Range(0.25f, 0.75f);
+        middleUpFactor = -Random.Range(0.1f, 0.25f);
+
+        //Init renderer visibility
+        if (otherConnector == null)
+        {
+            lineRenderer.enabled = false;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        DisplayRope();
+        if (otherConnector != null)
+        {
+            DisplayRope();
+        }
     }
 
     //Display the rope with a line renderer
     private void DisplayRope()
     {
-        //This is not the actual width, but the width use so we can see the rope
-        float ropeWidth = 0.2f;
-
-        lineRenderer.startWidth = ropeWidth;
-        lineRenderer.endWidth = ropeWidth;
-
-
         //Update the list with rope sections by approximating the rope with a bezier curve
-        //A Bezier curve needs 4 control points
         Vector3 A = transform.position;
-        Vector3 D = otherConnector.position;
+        Vector3 E = otherConnector.position;
 
-        //Upper control point
-        //To get a little curve at the top than at the bottom
-        Vector3 B = A + transform.forward * ((A - D).magnitude * bForwardFactor) + transform.up * ((A - D).magnitude * bUpFactor);
+        float AEmagnitude = (A - E).magnitude;
 
-        //Lower control point
-        Vector3 C = D + otherConnector.forward * ((A - D).magnitude * cForwardFactor) + otherConnector.up * ((A - D).magnitude * cUpFactor);
+        //This-Middle control point
+        Vector3 B = A + transform.forward * (AEmagnitude * connecterForwardFactor) + transform.up * (AEmagnitude * connectorUpFactor);
+
+        //Middle-Other control point
+        Vector3 D = E + otherConnector.forward * (AEmagnitude * otherForwardFactor) + otherConnector.up * (AEmagnitude * otherUpFactor);
+
+        //Middle control point
+        Vector3 C = Vector3.Lerp(A, E, middleForwardFactor) + otherConnector.up * (AEmagnitude * middleUpFactor);
 
         //Get the positions
-        BezierCurve.GetBezierCurve(A, B, C, D, allRopeSections);
+        BezierCurve.GetBezierCurve(allRopeSections, 0.05f, A, B, C, D, E);
 
         //An array with all rope section positions
         Vector3[] positions = new Vector3[allRopeSections.Count];
