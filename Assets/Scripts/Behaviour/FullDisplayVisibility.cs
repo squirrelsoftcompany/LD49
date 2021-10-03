@@ -17,7 +17,7 @@ public class FullDisplayVisibility : MonoBehaviour
     }
 
     bool _visibility = true;
-    bool Visibility
+    public bool Visibility
     {
         get => _visibility;
         set => SetVisibility(value);
