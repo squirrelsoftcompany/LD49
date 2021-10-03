@@ -26,14 +26,14 @@ public class ManageFullDisplayVisibility : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float camOrientation = transform.rotation.eulerAngles.y;
-        //Vector3 projectedPosition = Vector3.ProjectOnPlane(transform.position, Vector3.up);
+        float camOrientation = (transform.rotation.eulerAngles.y + 360) % 360; // orbital transposer is in [-180;180] but I want it in [0;360]
         foreach (var fdv in _FDVs)
         {
             float fdvOrientation = fdv.transform.rotation.eulerAngles.y;
-            //Vector3 fdvProjectedPosition = Vector3.ProjectOnPlane(fdv.transform.position, Vector3.up);
-            fdv.Visibility = Mathf.Abs(camOrientation - fdvOrientation) > nearPlane && Mathf.Abs((camOrientation -360) - fdvOrientation) > nearPlane;
-            //fdv.Visibility = Vector3.Distance(projectedPosition, fdvProjectedPosition) > nearPlane;
+            fdv.Visibility =
+                Mathf.Abs(camOrientation - fdvOrientation) > nearPlane
+                && Mathf.Abs((camOrientation - 360) - fdvOrientation) > nearPlane
+                && Mathf.Abs((camOrientation + 360) - fdvOrientation) > nearPlane;
         }
     }
 }
