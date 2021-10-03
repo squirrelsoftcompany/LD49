@@ -23,6 +23,10 @@ public enum Fuel
 
 public class ModuleBehavior : MonoBehaviour
 {
+
+    public  const float MIN_TEMP = -40.0f;
+    public  const float MAX_TEMP = 80.0f;
+
     //Goal to valid module
     public float mGoalPressure; // +/- 1
     public float mGoalTemp; // +/- 1
@@ -31,8 +35,10 @@ public class ModuleBehavior : MonoBehaviour
     public GameObject mMonitor;
 
     //Runtime variables
-    private float mPressure;
-    private float mTemp;
+    [Range(0.0f, 100.0f)]
+    public float mPressure;
+    [Range(MIN_TEMP, MAX_TEMP)]
+    public float mTemp;
     private List<ergolInTank> mErgolStack = new List<ergolInTank>();
     private int mLife = 100;
 
@@ -76,7 +82,7 @@ public class ModuleBehavior : MonoBehaviour
         }
 
         //Send information to the monitor
-        mMonitor.GetComponent<Monitor>().setModuleInformation(mErgolStack, mPressure, mTemp);
+        mMonitor.GetComponent<Monitor>().setModuleInformation(mErgolStack, mPressure, Mathf.InverseLerp(MIN_TEMP, MAX_TEMP, mTemp)*100.0f );
     }
 
     void fill()

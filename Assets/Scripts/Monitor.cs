@@ -21,11 +21,22 @@ public class Monitor : MonoBehaviour
     List<ergolInTank> mErgolStack = new List<ergolInTank> {};
     List<ergolInTank> mErgolLimitsStack = new List<ergolInTank> {};
     float mPressure = 0;
+    float mTemp = 0;
 
     List<Image> mErgolImages;
     public GameObject mTankBase;
     public GameObject mTankTop;
     public GameObject mGaz;
+
+    // Pressure gauge
+    public float mPressureZeroAngle = -40;
+    public float mPressureMaxAngle = 200;
+    public GameObject mPressureNeedle;
+
+    // Temp gauge
+    public float mTempZeroAngle = -40;
+    public float mTempMaxAngle = 200;
+    public GameObject mTempNeedle;
 
     public Color mMinPressure;
     public Color mMaxPressure;
@@ -52,9 +63,11 @@ public class Monitor : MonoBehaviour
     {
         mErgolStack = pErgolTank;
         mPressure = pPressure;
+        mTemp = pTemp;
 
-        if(mErgolStack != null) UpdateUI();
+        if (mErgolStack != null) UpdateUI();
         UpdatePressureUI();
+        UpdateTempUI();
         UpdateLimitsUI();
     }
 
@@ -171,6 +184,16 @@ public class Monitor : MonoBehaviour
     void UpdatePressureUI()
     {
         mGaz.GetComponent<Image>().color = Color.Lerp(mMinPressure, mMaxPressure, mPressure/100.0f);
+        float NeedleAngle = Mathf.Lerp(mPressureZeroAngle, mPressureMaxAngle, mPressure/100.0f);
+        Vector3 currentNeedleRot = mPressureNeedle.GetComponent<RectTransform>().localRotation.eulerAngles;
+        mPressureNeedle.GetComponent<RectTransform>().localRotation = Quaternion.Euler(currentNeedleRot.x, currentNeedleRot.y, NeedleAngle);
+    }
+
+    void UpdateTempUI()
+    {
+        float NeedleAngle = Mathf.Lerp(mTempZeroAngle, mTempMaxAngle, mTemp / 100.0f);
+        Vector3 currentNeedleRot = mTempNeedle.GetComponent<RectTransform>().localRotation.eulerAngles;
+        mTempNeedle.GetComponent<RectTransform>().localRotation = Quaternion.Euler(currentNeedleRot.x, currentNeedleRot.y, NeedleAngle);
     }
 
 
