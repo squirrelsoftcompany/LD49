@@ -90,6 +90,7 @@ public class ModuleBehavior : MonoBehaviour
     public const float TEMP_FACTOR_E6 = 2.3f;
     public const float TEMP_FACTOR_E7 = 4.0f;
 
+    public PovManager.RocketPOV RocketPOV;
 
     //Goal to valid module
     public float mGoalPressure; // +/- 1
