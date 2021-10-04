@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class ActivableBehaviour : MonoBehaviour
 {
@@ -51,11 +52,18 @@ public class ActivableBehaviour : MonoBehaviour
             //Mouse is over the object, we can interact with it
             if (Input.GetMouseButtonDown(0))
             {
-                clickDownBehavior();
+                if ( ! EventSystem.current.IsPointerOverGameObject())
+                {
+                    clickDownBehavior();
+                }
+                    
             }
             if (Input.GetMouseButtonUp(0))
             {
-                clickUpBehavior();
+                if (!EventSystem.current.IsPointerOverGameObject())
+                {
+                    clickUpBehavior();
+                }
             }
         }
     }
