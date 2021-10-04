@@ -41,6 +41,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (_inst == null) _inst = this;
         mGameState = GameState.eMenuStart;
     }
 

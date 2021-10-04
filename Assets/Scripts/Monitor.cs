@@ -83,7 +83,6 @@ public class Monitor : MonoBehaviour
     public void setModuleGoalInformation(List<ergolInTank> pErgolGoalTank)
     {
         mErgolLimitsStack = pErgolGoalTank;
-        Debug.Log(mErgolLimitsStack.Count);
         if (mErgolLimitsStack != null) UpdateLimitsUI();
         UpdatePressureUI();
     }
