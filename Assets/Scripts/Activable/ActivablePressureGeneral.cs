@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ActivablePressureGeneral : ActivableBehaviour
+public class ActivablePressureGeneral : ActivablePressure
 {
     public override void Active()
     {

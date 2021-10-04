@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class ActivablePurgeGeneral : ActivableBehaviour
+public class ActivablePurgeGeneral : ActivablePurge
 {
     public bool managePressure;
 
