@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class ActivableSwitchView : ActivableBehaviour
 {
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         mParentModule = GetComponentInParent<ModuleBehavior>();
     }
 

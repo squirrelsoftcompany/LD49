@@ -9,18 +9,6 @@ public class ActivableConnector : ActivableBehaviour
     public bool mPipeConnected = false;
     private Fuel mTypeFuelConnected;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     public override void clickDownBehavior()
     {
         if( !mPipeConnected )
