@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.Events;
 using UnityEngine;
 using System;
-
+using GameEventSystem;
 
 
 // Fuel use binary flag system to be identified - Ex: E1 = 001 E3 = 100 -> E5 = 101 
@@ -80,7 +80,7 @@ public class ModuleBehavior : MonoBehaviour
     public const float PRESSURE_FACTOR_E4 = 2.4f;
     public const float PRESSURE_FACTOR_E5 = 3.7f;
     public const float PRESSURE_FACTOR_E6 = 6.5f;
-    public const float PRESSURE_FACTOR_E7 = 10.0f;
+    public const float PRESSURE_FACTOR_E7 = 5.0f;
 
     public const float TEMP_FACTOR_E1 = 1.2f;
     public const float TEMP_FACTOR_E2 = 1.8f;
@@ -92,12 +92,20 @@ public class ModuleBehavior : MonoBehaviour
 
     public PovManager.RocketPOV RocketPOV;
 
+    public GameObject mSoundManager;
+    private SoundManager mSoundManagerScript;
+
+
     //Goal to valid module
     public float mGoalPressure; // +/- 1
     public float mGoalTemp; // +/- 1
 
     public List<ergolInTank> mGoalErgolStack;
     public GameObject mMonitor;
+
+    // Limit for the module
+    public float mPressureLimit = 100;
+    public float mTempLimit = MAX_TEMP; //Set to MAX_TEMP but can change if need it 
 
     //Runtime variables
     [Range(0.0f, 100.0f)]
@@ -106,7 +114,7 @@ public class ModuleBehavior : MonoBehaviour
     public float mTemp;
     private List<ergolInTank> mErgolStack = new List<ergolInTank>();
     public int mNbPipeConnected = 0;
-    private int mLife = 100;
+    private float mLife = 100.0f;
 
     // 3 full slots max. eNull if not used
     public Fuel[] mFillSlots = { Fuel.eNull, Fuel.eNull, Fuel.eNull };
@@ -117,9 +125,14 @@ public class ModuleBehavior : MonoBehaviour
     public bool mActivePressureEvacuation = false;  //If true, we call purge() at update
 
     private float mFillSpeed = 5.0f; // Percent of the fulltank fill in 1 sec
+    private float mFullTankPressureSpeed = 5.0f; 
     private float mPurgeSpeed = 20.0f; // Percent of the fulltank purge in 1 sec
-    private float mPressureEvacuationSpeed = 5.0f; // MPa.s-1
+    private float mPressureEvacuationSpeed = 10.0f; // MPa.s-1
     private float mTempEvacuationSpeed = 5.0f; // MPa.s-1
+
+    //Dommage ratio
+    private float mDommageOverPressure = 2.0f; // Dommage in 1 sec
+    private float mDommageOverTemp = 2.0f; // Dommage in 1 sec
 
     //Duration temperature diminution
     private float mFreezeDuration = 5.0f;
@@ -127,11 +140,16 @@ public class ModuleBehavior : MonoBehaviour
 
 
     // Others variables
+    private bool mOverPressure = false;
+    private bool mOverTemp = false;
+    private bool mFuelOverflow= false;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        mSoundManagerScript = mSoundManager.GetComponent<SoundManager>();
+
         mMonitor.GetComponent<Monitor>().setModuleGoalInformation(mGoalErgolStack);
     }
 
@@ -175,6 +193,45 @@ public class ModuleBehavior : MonoBehaviour
         mTemp += (Time.deltaTime * ((lastfuelQt / 100.0f) * ergolTempFactor + (1.0f - (lastfuelQt / 100.0f)) * TEMP_FACTOR));  // The ergole part is lastfuelQt of the tank. The empty part is (100 - lastfuelQt)
         mTemp = Mathf.Min(MAX_TEMP, mTemp);
 
+
+        // ----- Check anomalies
+
+        //1. Check pressure
+        bool lastPressureState = mOverPressure;
+        if (mPressure >= mPressureLimit)
+        {
+            mOverPressure = true;
+            mLife -= (Time.deltaTime * mDommageOverPressure);
+        }
+        else
+        {
+            mOverPressure = false;
+        }
+        //Send event if state changed
+        if(lastPressureState != mOverPressure)
+        {
+            mSoundManagerScript.playOverPressure(mOverPressure);
+        }
+        //2. Check temp
+        bool lastTempState = mOverTemp;
+        // TODO : compute mTempLimit with full type in tank
+        if (mTemp >= mTempLimit)
+        {
+            mOverTemp = true;
+            mLife -= (Time.deltaTime * mDommageOverTemp);
+        }
+        else
+        {
+            mOverTemp = false;
+        }
+        //Send event if state changed
+        if (lastTempState != mOverTemp)
+        {
+            mSoundManagerScript.playOverTemp(mOverTemp);
+        }
+
+        // ----- End of anomalis check
+
     }
 
     void fill()
@@ -184,9 +241,10 @@ public class ModuleBehavior : MonoBehaviour
 
         if (currentFull != Fuel.eNull )
         {
-            //if (mErgolStack.Count < 1 ||  mErgolStack[mErgolStack.Count - 1].quantity < 100.0f)
-            //{
-
+            bool lastOverflowState = mFuelOverflow;
+            if (mErgolStack.Count < 1 || mErgolStack[mErgolStack.Count - 1].quantity < 100.0f)
+            {
+                mFuelOverflow = false;
                 if (mErgolStack.Count > 0 && mErgolStack[mErgolStack.Count - 1].ergolType == currentFull)
                 {
                     mErgolStack[mErgolStack.Count - 1].quantity += Time.deltaTime * mFillSpeed;
@@ -203,9 +261,20 @@ public class ModuleBehavior : MonoBehaviour
                 // TODO : Add here effects on temp and pressure when adding some fuel
                 //Add pressure
                 mPressure += (Time.deltaTime * mFillSpeed) * getPressureFactorFuel(currentFull);
-            //}
+                mPressure = Mathf.Min(mPressureLimit, mPressure);
+            }
+            else if(mErgolStack.Count > 0 && mErgolStack[mErgolStack.Count - 1].quantity >= 100.0f)
+            {
+                mFuelOverflow = true;
+                mPressure += (Time.deltaTime * mFillSpeed) * mFullTankPressureSpeed;
+                mPressure = Mathf.Min(mPressureLimit, mPressure);
+            }
+            //Send overflow event if state changed
+            if (lastOverflowState != mFuelOverflow)
+            {
+                mSoundManagerScript.playFuelOverflow(mFuelOverflow);
+            }
         }
-
     }
 
     void purge()
@@ -217,6 +286,11 @@ public class ModuleBehavior : MonoBehaviour
             {
                 mErgolStack.RemoveAt(0);
             }
+        }
+        else
+        {
+            //Stop purge
+            activePurge(false);
         }
     }
 
@@ -271,7 +345,15 @@ public class ModuleBehavior : MonoBehaviour
 
     void pressureEvacuation()
     {
-        mPressure -= Time.deltaTime * mPressureEvacuationSpeed;
+        if (mPressure > 0)
+        {
+            mPressure -= Time.deltaTime * mPressureEvacuationSpeed;
+        }
+        else
+        {
+            mPressure = 0;
+            activePressureEvacuation(false);
+        }
     }
 
     //Callable methode by event system
@@ -279,25 +361,32 @@ public class ModuleBehavior : MonoBehaviour
     public void activePurge(bool active)
     {
         mActivePurge = active;
+        mSoundManagerScript.playFuelPurge(active);
     }
 
     public void activeFreeze(bool active)
     {
         mActiveFreeze = active;
+        mSoundManagerScript.playFreeze();
     }
 
     public void activeFill(bool active)
     {
         mActiveFill = active;
+        if(!active)
+        {
+            mFuelOverflow = false; // Stop overflow state
+        }
+        mSoundManagerScript.playFuelFill(active);
     }
     public void activePressureEvacuation(bool active)
     {
         mActivePressureEvacuation = active;
+        mSoundManagerScript.playPressurePurge(active);
     }
 
     public void connectPipe(Fuel pFuel)
     {
-
         if (mNbPipeConnected < 3) //TODO : Change max connector number 
         {
             for(int i = 0; i < mFillSlots.Length; i++)
@@ -310,6 +399,7 @@ public class ModuleBehavior : MonoBehaviour
             }
             mNbPipeConnected++;
         }
+        mSoundManagerScript.playPipeClip();
     }
 
     public void disconnectPipe(Fuel pFuel) /* pFuel = Previous full*/
@@ -324,5 +414,6 @@ public class ModuleBehavior : MonoBehaviour
             }
         }
         mNbPipeConnected--;
+        mSoundManagerScript.playPipeClip();
     }
 }

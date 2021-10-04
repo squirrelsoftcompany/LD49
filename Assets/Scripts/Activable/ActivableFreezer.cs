@@ -10,18 +10,6 @@ public class ActivableFreezer : ActivableBehaviour
     private float mFreezeDuration = 5.0f;
     private float mFreezeDurationTimeRemaining = 0.0f;*/
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public override void clickDownBehavior()
     {
         if (!isActive)

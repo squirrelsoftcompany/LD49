@@ -13,10 +13,16 @@ public class ActivableBehaviour : MonoBehaviour
     public float actionCooldown = 0.0f;
     public float cooldowntimeRemaining = 0.0f;
 
+    private Outline outlineScript = null;
+
     // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
-        
+        outlineScript = gameObject.AddComponent<Outline>();
+        outlineScript.OutlineColor = Color.green;
+        outlineScript.OutlineMode = Outline.Mode.OutlineAll;
+        outlineScript.OutlineWidth = 2;
+        outlineScript.enabled = false;
     }
 
     // Update is called once per frame
@@ -38,14 +44,7 @@ public class ActivableBehaviour : MonoBehaviour
         {
             if (!isMouseOver)
             {
-                Material[] materials = this.GetComponent<MeshRenderer>().materials;
-                foreach (Material currentMat in materials)
-                {
-                    if (currentMat.name.Contains("Hovered"))
-                    {
-                        currentMat.color = new Color(currentMat.color.r, currentMat.color.g, currentMat.color.b, 0.5f);
-                    }
-                }
+                outlineScript.enabled = true;
                 isMouseOver = true;
             }
             
@@ -64,14 +63,7 @@ public class ActivableBehaviour : MonoBehaviour
     protected void OnMouseExit()
     {
         isMouseOver = false;
-        Material[] materials = this.GetComponent<MeshRenderer>().materials;
-        foreach (Material currentMat in materials)
-        {
-            if (currentMat.name.Contains("Hovered"))
-            {
-                currentMat.color = new Color(currentMat.color.r, currentMat.color.g, currentMat.color.b, 0f);
-            }
-        }
+        outlineScript.enabled = false;
         mouseExit();
     }
 
