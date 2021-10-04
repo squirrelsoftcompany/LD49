@@ -10,6 +10,8 @@ public class ActivableConnector : ActivableBehaviour
     public bool mPipeConnected = false;
     private Fuel mTypeFuelConnected;
 
+    public Transform m_hotspotConnector;
+
     protected override void Start()
     {
         base.Start();
@@ -48,23 +50,15 @@ public class ActivableConnector : ActivableBehaviour
         isActive = false;
     }
 
-
-    public override void Active()
-    {
-        mParentModule.activePressureEvacuation(true);
-    }
-
-    public override void Stop()
-    {
-        mParentModule.activePressureEvacuation(false);
-    }
-
     public void connectFuel(Fuel pFuel)
     {
         mParentModule.connectPipe(pFuel);
         mTypeFuelConnected = pFuel;
         mPipeConnected = true;
-
+        if (! GeneralConnectorManagement.Inst.Connect(m_hotspotConnector))
+        {
+            Debug.Log("Can't found a free connector.");
+        }
     }
 
     public void disconnectFuel(Fuel pFuel)
@@ -72,5 +66,9 @@ public class ActivableConnector : ActivableBehaviour
         mParentModule.disconnectPipe(pFuel);
         mTypeFuelConnected = Fuel.eNull;
         mPipeConnected = false;
+        if (!GeneralConnectorManagement.Inst.Disconnect(m_hotspotConnector))
+        {
+            Debug.Log("Can't find the correct connector to disconnect.");
+        }
     }
 }

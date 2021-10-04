@@ -48,7 +48,12 @@ public class PipeSimulator : MonoBehaviour
     {
         if (otherConnector != null)
         {
+            lineRenderer.enabled = true;
             DisplayRope();
+        }
+        else
+        {
+            lineRenderer.enabled = false;
         }
     }
 
