@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
     }
 
 
-    private GameState mGameState { get; set; }
+    public GameState mGameState { get; set; }
 
 
     private static GameManager _inst = null;
@@ -38,11 +38,15 @@ public class GameManager : MonoBehaviour
         get => _inst;
     }
 
+    private StartMenu startMenu;
+
     // Start is called before the first frame update
     void Start()
     {
         if (_inst == null) _inst = this;
         mGameState = GameState.eMenuStart;
+
+        startMenu = FindObjectOfType<StartMenu>();
     }
 
     // Update is called once per frame
@@ -54,13 +58,13 @@ public class GameManager : MonoBehaviour
     public void Play()
     {
         mGameState = GameState.eIngame;
-        //TODO : Animation tablet
+        PovManager.Inst.SwitchToFD();
         //TODO : Move camera
     }
 
     public void Fulldisplay()
     {
-        PovManager.Inst.SetCurrentRocketPOV(PovManager.RocketPOV.eFullDisplay);
+        PovManager.Inst.SwitchToFD();
     }
 
     public void Validate()
@@ -71,11 +75,9 @@ public class GameManager : MonoBehaviour
     public void BackToMenu()
     {
         mGameState = GameState.eMenuNext;
+        startMenu.ShowMenu();
+        PovManager.Inst.SwitchToMenu();
         //TODO : Animation tablet
         //TODO : Move camera
     }
-
-
-
-
 }

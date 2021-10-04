@@ -8,6 +8,8 @@ public class StartMenu : MonoBehaviour
 
     private int mDifficultySelected;
 
+    public Animator animatorTablet;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,8 +25,14 @@ public class StartMenu : MonoBehaviour
     public void onPlayClick()
     {
         //Do something maybe...
+        animatorTablet.SetTrigger("HideTablet");
         GameManager.Inst.Difficulty = mDifficultySelected;
         GameManager.Inst.Play();
+    }
+
+    public void ShowMenu()
+    {
+        animatorTablet.SetTrigger("ShowTablet");
     }
 
     public void onLevel1Click()
