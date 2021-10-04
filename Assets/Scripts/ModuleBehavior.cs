@@ -243,11 +243,18 @@ public class ModuleBehavior : MonoBehaviour
 
     public void reduceLife(float pNewLife)
     {
-        mLife -= pNewLife;
-        int burstCount = 5 * (10 - (Mathf.FloorToInt(mLife) / 10));
-        ParticleSystem.EmissionModule emission = mParticuleSystem.emission;
-        emission.enabled = true;
-        emission.SetBursts(new ParticleSystem.Burst[] { new ParticleSystem.Burst(0.0f, burstCount) });
+        if(mLife > 0)
+        {
+            mLife -= pNewLife;
+            int burstCount = 5 * (10 - (Mathf.FloorToInt(mLife) / 10));
+            ParticleSystem.EmissionModule emission = mParticuleSystem.emission;
+            emission.enabled = true;
+            emission.SetBursts(new ParticleSystem.Burst[] { new ParticleSystem.Burst(0.0f, burstCount) });
+        }
+        else
+        {
+            // Explosion I guess..
+        }
     }
 
     void fill()
