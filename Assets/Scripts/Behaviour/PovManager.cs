@@ -24,6 +24,7 @@ public class PovManager : MonoBehaviour
         eStage4,
         eStage5,
         eStage6, // cap when 5 modules
+        eDesk, // Desk
         eNBPov
     }
 
@@ -37,7 +38,7 @@ public class PovManager : MonoBehaviour
     {
         if (_inst == null) _inst = this;
 
-        if (m_CVCs.Count != 8 || m_CVCs.Any(x => x == null)) Debug.LogError("Mandatory: 8 not null CVC.");
+        if (m_CVCs.Count != (int)RocketPOV.eNBPov || m_CVCs.Any(x => x == null)) Debug.LogError("Mandatory: " + (int)RocketPOV.eNBPov + " not null CVC.");
     }
 
     // Update is called once per frame
@@ -53,7 +54,10 @@ public class PovManager : MonoBehaviour
         var previousCVC = m_CVCs[((int)_currentRocketPov)];
         var neoCVC = m_CVCs[((int)rocketPOV)];
 
-        neoCVC.GetCinemachineComponent<Cinemachine.CinemachineOrbitalTransposer>().m_XAxis.Value = previousCVC.GetCinemachineComponent<Cinemachine.CinemachineOrbitalTransposer>().m_XAxis.Value;
+        var neoTransposer = neoCVC.GetCinemachineComponent<Cinemachine.CinemachineOrbitalTransposer>();
+        var previousTransposer = previousCVC.GetCinemachineComponent<Cinemachine.CinemachineOrbitalTransposer>();
+        if (neoTransposer) neoTransposer.m_XAxis.Value = previousTransposer ? previousTransposer.m_XAxis.Value : 0;
+        
         previousCVC.Priority = 0;
         neoCVC.Priority = 10;
 
@@ -73,9 +77,53 @@ public class PovManager : MonoBehaviour
             Debug.LogWarning("Can't call this function while editing.");
         }
     }
+#endif // UNITY_EDITOR
 
+#if UNITY_EDITOR
+    [ContextMenu("Switch To FD")]
+#endif // UNITY_EDITOR
+    public void SwitchToFD()
+    {
+        if (Application.isPlaying)
+        {
+            CurrentRocketPOV = RocketPOV.eFullDisplay;
+        }
+        else
+        {
+            Debug.LogWarning("Can't call this function while editing.");
+        }
+    }
+
+#if UNITY_EDITOR
+    [ContextMenu("Switch To Menu")]
+#endif // UNITY_EDITOR
+    public void SwitchToMenu()
+    {
+        if (Application.isPlaying)
+        {
+            CurrentRocketPOV = RocketPOV.eDesk;
+        }
+        else
+        {
+            Debug.LogWarning("Can't call this function while editing.");
+        }
+    }
+
+#if UNITY_EDITOR
     [ContextMenu("Switch View", true)]
     public bool CheckSwitchView()
+    {
+        return Application.isPlaying;
+    }
+
+    [ContextMenu("Switch To FD", true)]
+    public bool CheckSwitchToFD()
+    {
+        return Application.isPlaying;
+    }
+
+    [ContextMenu("Switch To Menu", true)]
+    public bool CheckSwitchToMenu()
     {
         return Application.isPlaying;
     }
