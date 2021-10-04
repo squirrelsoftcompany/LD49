@@ -130,4 +130,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_tag: Structure
-  nearPlane: 45
+  nearPlane: 50
