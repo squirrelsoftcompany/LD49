@@ -10,6 +10,10 @@ public class ActivableConnector : ActivableBehaviour
     public bool mPipeConnected = false;
     private Fuel mTypeFuelConnected;
 
+    public Transform m_hotspotConnector;
+    public Material MatConnectorOn;
+    public Material MatConnectorOff;
+
     protected override void Start()
     {
         base.Start();
@@ -19,6 +23,8 @@ public class ActivableConnector : ActivableBehaviour
             mPieMenu = Instantiate(mPieMenu, transform.root);
             mEffectivePieMenu = mPieMenu.GetComponentInChildren<RadialMenu>();
         }
+
+        GetComponent<MeshRenderer>().material = MatConnectorOff;
     }
 
     public override void clickDownBehavior()
@@ -48,29 +54,27 @@ public class ActivableConnector : ActivableBehaviour
         isActive = false;
     }
 
-
-    public override void Active()
-    {
-        mParentModule.activePressureEvacuation(true);
-    }
-
-    public override void Stop()
-    {
-        mParentModule.activePressureEvacuation(false);
-    }
-
     public void connectFuel(Fuel pFuel)
     {
         mParentModule.connectPipe(pFuel);
         mTypeFuelConnected = pFuel;
+        if (! GeneralConnectorManagement.Inst.Connect(m_hotspotConnector))
+        {
+            Debug.Log("Can't found a free connector.");
+        }
+        GetComponent<MeshRenderer>().material = MatConnectorOn;
         mPipeConnected = true;
-
     }
 
     public void disconnectFuel(Fuel pFuel)
     {
         mParentModule.disconnectPipe(pFuel);
         mTypeFuelConnected = Fuel.eNull;
+        if (!GeneralConnectorManagement.Inst.Disconnect(m_hotspotConnector))
+        {
+            Debug.Log("Can't find the correct connector to disconnect.");
+        }
+        GetComponent<MeshRenderer>().material = MatConnectorOff;
         mPipeConnected = false;
     }
 }
