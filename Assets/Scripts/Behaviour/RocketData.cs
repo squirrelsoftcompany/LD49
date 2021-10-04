@@ -146,7 +146,7 @@ public class RocketData
 
     static int ComputeModuleCount(int difficultyMin, int difficultyMax)
     {
-        int moduleCountMin = Mathf.Max((difficultyMax / ModuleData.MaxDiff) + 1, 5);
+        int moduleCountMin = Mathf.Min((difficultyMax / ModuleData.MaxDiff) + 1, 5);
         int moduleCountMax = Mathf.Min(moduleCountMin + 3, Mathf.Min(difficultyMin / ModuleData.MaxDiff, 5));
 
         return Random.Range(moduleCountMin, moduleCountMax + 1);
