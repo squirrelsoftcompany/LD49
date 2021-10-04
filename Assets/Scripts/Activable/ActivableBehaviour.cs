@@ -8,7 +8,7 @@ public class ActivableBehaviour : MonoBehaviour
     protected bool isMouseOver = false;
     protected bool isActive = false;
 
-    public GameObject mParentModule;
+    public ModuleBehavior mParentModule;
 
     public float actionCooldown = 0.0f;
     public float cooldowntimeRemaining = 0.0f;
@@ -33,9 +33,8 @@ public class ActivableBehaviour : MonoBehaviour
         //    cooldowntimeRemaining -= Time.deltaTime;
         //    return;
         //}
-        
 
-        if (isActivable())
+        if (IsActivable())
         {
             if (!isMouseOver)
             {
@@ -49,7 +48,6 @@ public class ActivableBehaviour : MonoBehaviour
                 }
                 isMouseOver = true;
             }
-
             
             //Mouse is over the object, we can interact with it
             if (Input.GetMouseButtonDown(0))
@@ -87,7 +85,6 @@ public class ActivableBehaviour : MonoBehaviour
         //Do nothing. Override it to active action.
     }
 
-
     public virtual void Active()
     {
         //Do nothing. Override it to active action.
@@ -103,23 +100,8 @@ public class ActivableBehaviour : MonoBehaviour
         //Do nothing. Override it to active action.
     }
 
-
-
-    public bool isActivable()
+    public virtual bool IsActivable()
     {
-        /*
-         * TODO : Get inforation about currrent module to compare with the current POV 
-         * 
-        if(PovManager.Inst.CurrentRocketPOV == mParentModule.stageNumber)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-
-        */
-        return true;
+        return PovManager.Inst.CurrentRocketPOV == mParentModule.RocketPOV;
     }
 }
