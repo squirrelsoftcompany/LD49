@@ -17,10 +17,6 @@ public class SoundManager : MonoBehaviour {
 
     [SerializeField] private AudioSource audioSourceMusic;
     [SerializeField] private AudioClip[] audioClipsMusic;
-    //[SerializeField] private AudioSource audioSourceSpin;
-    //[SerializeField] private AudioSource audioSourcePush;
-    //[SerializeField] private AudioSource audioSourceExplosion;
-    //[SerializeField] private AudioSource audioSourceMentalUp;
 
     private int indexMusic;
     private bool shouldPlayBubbles;
@@ -28,16 +24,11 @@ public class SoundManager : MonoBehaviour {
     [CanBeNull] private IEnumerator fadeOutCoroutine, fadeInCoroutine;
 
     private bool musicOn;
-    private bool _shouldPlayMental;
-    private IEnumerator _mentalLoop;
 
     // Start is called before the first frame update
     private void Start() {
         indexMusic = 0;
         musicOn = true;
-        shouldPlayBubbles = false;
-        _shouldPlayMental = false;
-        StartCoroutine(playNextMusic());
     }
 
     private IEnumerator playNextMusic() {

@@ -92,15 +92,8 @@ public class ModuleBehavior : MonoBehaviour
 
     public PovManager.RocketPOV RocketPOV;
 
-    //Game events
-    [SerializeField] private GameEvent moduleFillEvent;
-    [SerializeField] private GameEvent pipeConnectEvent;
-    [SerializeField] private GameEvent overPressureEvent;
-    [SerializeField] private GameEvent overTempEvent;
-    [SerializeField] private GameEvent fuelPurgeEvent;
-    [SerializeField] private GameEvent pressurePurgeEvent;
-    [SerializeField] private GameEvent freezeEvent;
-    [SerializeField] private GameEvent fuelOverflowEvent;
+    public GameObject mSoundManager;
+    private SoundManager mSoundManagerScript;
 
 
     //Goal to valid module
@@ -134,7 +127,7 @@ public class ModuleBehavior : MonoBehaviour
     private float mFillSpeed = 5.0f; // Percent of the fulltank fill in 1 sec
     private float mFullTankPressureSpeed = 5.0f; 
     private float mPurgeSpeed = 20.0f; // Percent of the fulltank purge in 1 sec
-    private float mPressureEvacuationSpeed = 5.0f; // MPa.s-1
+    private float mPressureEvacuationSpeed = 10.0f; // MPa.s-1
     private float mTempEvacuationSpeed = 5.0f; // MPa.s-1
 
     //Dommage ratio
@@ -155,6 +148,8 @@ public class ModuleBehavior : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        mSoundManagerScript = mSoundManager.GetComponent<SoundManager>();
+
         mMonitor.GetComponent<Monitor>().setModuleGoalInformation(mGoalErgolStack);
     }
 
@@ -215,8 +210,7 @@ public class ModuleBehavior : MonoBehaviour
         //Send event if state changed
         if(lastPressureState != mOverPressure)
         {
-            overPressureEvent.sentBool = mOverPressure;
-            overPressureEvent.Raise();
+            mSoundManagerScript.playOverPressure(mOverPressure);
         }
         //2. Check temp
         bool lastTempState = mOverTemp;
@@ -233,8 +227,7 @@ public class ModuleBehavior : MonoBehaviour
         //Send event if state changed
         if (lastTempState != mOverTemp)
         {
-            overTempEvent.sentBool = mOverTemp;
-            overTempEvent.Raise();
+            mSoundManagerScript.playOverTemp(mOverTemp);
         }
 
         // ----- End of anomalis check
@@ -279,8 +272,7 @@ public class ModuleBehavior : MonoBehaviour
             //Send overflow event if state changed
             if (lastOverflowState != mFuelOverflow)
             {
-                fuelOverflowEvent.sentBool = mFuelOverflow;
-                fuelOverflowEvent.Raise();
+                mSoundManagerScript.playFuelOverflow(mFuelOverflow);
             }
         }
     }
@@ -369,14 +361,13 @@ public class ModuleBehavior : MonoBehaviour
     public void activePurge(bool active)
     {
         mActivePurge = active;
-        fuelPurgeEvent.sentBool = active;
-        fuelPurgeEvent.Raise();
+        mSoundManagerScript.playFuelPurge(active);
     }
 
     public void activeFreeze(bool active)
     {
         mActiveFreeze = active;
-        freezeEvent.Raise();
+        mSoundManagerScript.playFreeze();
     }
 
     public void activeFill(bool active)
@@ -386,14 +377,12 @@ public class ModuleBehavior : MonoBehaviour
         {
             mFuelOverflow = false; // Stop overflow state
         }
-        moduleFillEvent.sentBool = active;
-        moduleFillEvent.Raise();
+        mSoundManagerScript.playFuelFill(active);
     }
     public void activePressureEvacuation(bool active)
     {
         mActivePressureEvacuation = active;
-        pressurePurgeEvent.sentBool = active;
-        pressurePurgeEvent.Raise();
+        mSoundManagerScript.playPressurePurge(active);
     }
 
     public void connectPipe(Fuel pFuel)
@@ -410,7 +399,7 @@ public class ModuleBehavior : MonoBehaviour
             }
             mNbPipeConnected++;
         }
-        pipeConnectEvent.Raise();
+        mSoundManagerScript.playPipeClip();
     }
 
     public void disconnectPipe(Fuel pFuel) /* pFuel = Previous full*/
@@ -425,6 +414,6 @@ public class ModuleBehavior : MonoBehaviour
             }
         }
         mNbPipeConnected--;
-        pipeConnectEvent.Raise();
+        mSoundManagerScript.playPipeClip();
     }
 }
