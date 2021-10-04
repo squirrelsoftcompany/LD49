@@ -34,11 +34,6 @@ public class ActivableConnector : ActivableBehaviour
             mPieMenu.GetComponent<RadialMenu>().setConnector(null);
             disconnectFuel(mTypeFuelConnected);
         }
-
-
-        /*
-        Active();
-        isActive = true;*/
     }
 
     public override void clickUpBehavior()

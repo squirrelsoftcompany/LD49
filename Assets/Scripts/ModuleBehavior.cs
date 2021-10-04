@@ -24,8 +24,72 @@ public enum Fuel
 public class ModuleBehavior : MonoBehaviour
 {
 
-    public  const float MIN_TEMP = -40.0f;
-    public  const float MAX_TEMP = 80.0f;
+    static float getPressureFactorFuel(Fuel pFuel)
+    {
+        switch(pFuel)
+        {
+            case Fuel.eE1:
+                return PRESSURE_FACTOR_E1;
+            case Fuel.eE2:
+                return PRESSURE_FACTOR_E2;
+            case Fuel.eE3:
+                return PRESSURE_FACTOR_E3;
+            case (Fuel.eE1 | Fuel.eE2):
+                return PRESSURE_FACTOR_E4;
+            case (Fuel.eE1 | Fuel.eE3):
+                return PRESSURE_FACTOR_E5;
+            case (Fuel.eE2 | Fuel.eE3):
+                return PRESSURE_FACTOR_E6;
+            case (Fuel.eE1 | Fuel.eE2 | Fuel.eE3):
+                return PRESSURE_FACTOR_E7;
+            default:
+                return 1.0f;
+        }
+    }
+
+    static float getTempFactorFuel(Fuel pFuel)
+    {
+        switch (pFuel)
+        {
+            case Fuel.eE1:
+                return TEMP_FACTOR_E1;
+            case Fuel.eE2:
+                return TEMP_FACTOR_E2;
+            case Fuel.eE3:
+                return TEMP_FACTOR_E3;
+            case (Fuel.eE1 | Fuel.eE2):
+                return TEMP_FACTOR_E4;
+            case (Fuel.eE1 | Fuel.eE3):
+                return TEMP_FACTOR_E5;
+            case (Fuel.eE2 | Fuel.eE3):
+                return TEMP_FACTOR_E6;
+            case (Fuel.eE1 | Fuel.eE2 | Fuel.eE3):
+                return TEMP_FACTOR_E7;
+            default:
+                return 1.0f;
+        }
+    }
+
+    public const float MIN_TEMP = -40.0f;
+    public const float MAX_TEMP = 200.0f;
+    public const float TEMP_FACTOR = 0.5f;
+
+    public const float PRESSURE_FACTOR_E1 = 1.2f;    
+    public const float PRESSURE_FACTOR_E2 = 1.8f;
+    public const float PRESSURE_FACTOR_E3 = 1.5f;
+    public const float PRESSURE_FACTOR_E4 = 2.4f;
+    public const float PRESSURE_FACTOR_E5 = 3.7f;
+    public const float PRESSURE_FACTOR_E6 = 6.5f;
+    public const float PRESSURE_FACTOR_E7 = 10.0f;
+
+    public const float TEMP_FACTOR_E1 = 1.2f;
+    public const float TEMP_FACTOR_E2 = 1.8f;
+    public const float TEMP_FACTOR_E3 = 1.5f;
+    public const float TEMP_FACTOR_E4 = -1.4f;
+    public const float TEMP_FACTOR_E5 = 2.7f;
+    public const float TEMP_FACTOR_E6 = 2.3f;
+    public const float TEMP_FACTOR_E7 = 4.0f;
+
 
     //Goal to valid module
     public float mGoalPressure; // +/- 1
@@ -53,7 +117,7 @@ public class ModuleBehavior : MonoBehaviour
 
     private float mFillSpeed = 5.0f; // Percent of the fulltank fill in 1 sec
     private float mPurgeSpeed = 20.0f; // Percent of the fulltank purge in 1 sec
-    private float mPressureEvacuationSpeed = 1.0f; // MPa.s-1
+    private float mPressureEvacuationSpeed = 5.0f; // MPa.s-1
     private float mTempEvacuationSpeed = 5.0f; // MPa.s-1
 
     //Duration temperature diminution
@@ -90,41 +154,68 @@ public class ModuleBehavior : MonoBehaviour
             freezing();
         }
 
+        updateModuleState();
+
         //Send information to the monitor
         mMonitor.GetComponent<Monitor>().setModuleInformation(mErgolStack, mPressure, Mathf.InverseLerp(MIN_TEMP, MAX_TEMP, mTemp)*100.0f );
+    }
+
+    private void updateModuleState()
+    {
+        //Compute temperature progression 
+        float ergolTempFactor = 1;
+        float lastfuelQt = 0;
+        for (int i = 0; i < mErgolStack.Count; i++)
+        {
+            // Warning : Remove last fuel quantity because quantity is the addion of the fuel quantity stack
+            ergolTempFactor += getTempFactorFuel(mErgolStack[i].ergolType) * ((mErgolStack[i].quantity - lastfuelQt) / 100.0f);
+            lastfuelQt = mErgolStack[i].quantity;
+        }
+        mTemp += (Time.deltaTime * ((lastfuelQt / 100.0f) * ergolTempFactor + (1.0f - (lastfuelQt / 100.0f)) * TEMP_FACTOR));  // The ergole part is lastfuelQt of the tank. The empty part is (100 - lastfuelQt)
+        mTemp = Mathf.Min(MAX_TEMP, mTemp);
+
     }
 
     void fill()
     {
 
-        int currentFull = Convert.ToInt32(mFillSlots[0] | mFillSlots[1] | mFillSlots[2]);
+        Fuel currentFull = (Fuel)(mFillSlots[0] | mFillSlots[1] | mFillSlots[2]);
 
-        if (currentFull != Convert.ToInt32(Fuel.eNull))
+        if (currentFull != Fuel.eNull )
         {
-            if (mErgolStack.Count > 0 && mErgolStack[mErgolStack.Count - 1].ergolType == (Fuel)currentFull)
-            {
-                mErgolStack[mErgolStack.Count - 1].quantity += Time.deltaTime * mFillSpeed;
-            }
-            else
-            {
-                //Remove last full if quantity is very low to help player
-                if (mErgolStack.Count > 0 && mErgolStack[mErgolStack.Count - 1].quantity < 1.0f)
+            //if (mErgolStack.Count < 1 ||  mErgolStack[mErgolStack.Count - 1].quantity < 100.0f)
+            //{
+
+                if (mErgolStack.Count > 0 && mErgolStack[mErgolStack.Count - 1].ergolType == currentFull)
                 {
-                    mErgolStack.RemoveAt(mErgolStack.Count - 1);
+                    mErgolStack[mErgolStack.Count - 1].quantity += Time.deltaTime * mFillSpeed;
                 }
-                mErgolStack.Add(new ergolInTank((Fuel)currentFull, Time.deltaTime * mFillSpeed));
-            }
-            // TODO : Add here effects on temp and pressure when adding some fuel
+                else
+                {
+                    //Remove last full if quantity is very low to help player
+                    if (mErgolStack.Count > 0 && mErgolStack[mErgolStack.Count - 1].quantity < 1.0f)
+                    {
+                        mErgolStack.RemoveAt(mErgolStack.Count - 1);
+                    }
+                    mErgolStack.Add(new ergolInTank(currentFull, Time.deltaTime * mFillSpeed));
+                }
+                // TODO : Add here effects on temp and pressure when adding some fuel
+                //Add pressure
+                mPressure += (Time.deltaTime * mFillSpeed) * getPressureFactorFuel(currentFull);
+            //}
         }
 
     }
 
     void purge()
     {
-        mErgolStack[0].quantity -= Time.deltaTime * mPurgeSpeed;
-        if(mErgolStack[0].quantity <= 0)
+        if( mErgolStack.Count > 0 )
         {
-            mErgolStack.RemoveAt(0);
+            mErgolStack[0].quantity -= Time.deltaTime * mPurgeSpeed;
+            if (mErgolStack[0].quantity <= 0)
+            {
+                mErgolStack.RemoveAt(0);
+            }
         }
     }
 

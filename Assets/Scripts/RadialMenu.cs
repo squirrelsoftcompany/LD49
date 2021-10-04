@@ -72,9 +72,9 @@ public class RadialMenu : MonoBehaviour
 
         if(Input.GetMouseButtonDown(0))
         {
-            if (mConnector)
+            if (mConnector && mMenuGO.activeSelf)
             {
-                if( isVisible) //Add visible boolean to delay the menu display. Otherwise when the menu is display by clic, the selection catching the same clic and close immediately the menu...
+                if( isVisible ) //Add visible boolean to delay the menu display. Otherwise when the menu is display by clic, the selection catching the same clic and close immediately the menu...
                 {
                     switch (mHoveredElement)
                     {

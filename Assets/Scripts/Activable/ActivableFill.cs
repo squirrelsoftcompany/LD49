@@ -48,6 +48,6 @@ public class ActivableFill : ActivableBehaviour
 
     public override void Stop()
     {
-        mParentModule.GetComponent<ModuleBehavior>().activeFill(true);
+        mParentModule.GetComponent<ModuleBehavior>().activeFill(false);
     }
 }
