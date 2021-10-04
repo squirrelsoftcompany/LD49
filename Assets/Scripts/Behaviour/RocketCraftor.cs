@@ -40,17 +40,21 @@ public class RocketCraftor : MonoBehaviour
         BoosterCraftor bc = Instantiate(RandomGet(boosterPrefabs), new Vector3(0, height, 0), Quaternion.identity, rocket);
         bc.data = rocketData;
         height += 4;
+        PovManager.RocketPOV rocketPOV = PovManager.RocketPOV.eStage1;
 
         // add each module
         foreach (ModuleData mod in rocketData.m_modules)
         {
             ModuleCraftor moduleCraftor = Instantiate(RandomGet(modulePrefabs), new Vector3(0, height, 0), Quaternion.AngleAxis(Random.Range(0, 8) * 45, Vector3.up), rocket);
             moduleCraftor.data = mod;
+            moduleCraftor.GetComponent<ModuleBehavior>().RocketPOV = rocketPOV;
+            rocketPOV += 1;
             height += 3;
         }
 
         // add cap
-        Instantiate(RandomGet(capPrefabs), new Vector3(0, height, 0), Quaternion.identity, rocket);
+        GameObject cap = Instantiate(RandomGet(capPrefabs), new Vector3(0, height, 0), Quaternion.identity, rocket);
+        cap.GetComponentInChildren<ActivableSwitchViewCap>().capPOV = rocketPOV;
     }
 
     public static T RandomGet<T>(List<T> list)

@@ -440,11 +440,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_pressurePrefabs:
-  - {fileID: 4765989373337873525, guid: 22f203aa154bb8e458fad074a491f13c, type: 3}
+  - {fileID: 7986880981923774764, guid: 50688aa12a3451045bdf1511d98c3712, type: 3}
   m_purgeErgolPrefabs:
-  - {fileID: 3817874148198593489, guid: e93bc86829cda604c820747f95918014, type: 3}
+  - {fileID: 8889550564242533823, guid: 60ad9af63a38dbf4da8b56025663ad61, type: 3}
   m_purgeAllPrefabs:
-  - {fileID: 3817874148198593489, guid: e93bc86829cda604c820747f95918014, type: 3}
+  - {fileID: 8889550564242533823, guid: e27fd6810d7870b499114f22b5c29dfa, type: 3}
   m_activableLocations:
   - {fileID: 6033367091360504523}
   - {fileID: 5546832630714120370}
@@ -457,6 +457,35 @@ MonoBehaviour:
   data:
     m_twoDistinctPurgeButton: 1
     m_modules: []
+--- !u!114 &7847109924193018736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 444230339371665810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9c066dfe7d6dc746b6ddd2bf3a2c395, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mParentModule: {fileID: 0}
+  actionCooldown: 0
+  cooldowntimeRemaining: 0
+--- !u!64 &2447602864140168995
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 444230339371665810}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -2432090755550338912, guid: e1d687cc6db78024492c58174e112357, type: 3}
 --- !u!1 &8828199592264483514
 GameObject:
   m_ObjectHideFlags: 0
@@ -539,9 +568,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7635826562936255635, guid: e1d687cc6db78024492c58174e112357, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: e1d687cc6db78024492c58174e112357, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 04cb76300b861774a81af3e7e9790a1f, type: 2}
+    - target: {fileID: -7635826562936255635, guid: e1d687cc6db78024492c58174e112357, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: d581e6371085a8b42ad71a20a57bf120, type: 2}
     - target: {fileID: 919132149155446097, guid: e1d687cc6db78024492c58174e112357, type: 3}
       propertyPath: m_Name
       value: Engine
@@ -555,6 +592,11 @@ PrefabInstance:
 --- !u!4 &8136916487087598577 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: e1d687cc6db78024492c58174e112357, type: 3}
+  m_PrefabInstance: {fileID: 8603734641718676506}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &444230339371665810 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8164078558771037576, guid: e1d687cc6db78024492c58174e112357, type: 3}
   m_PrefabInstance: {fileID: 8603734641718676506}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &8910357309546328395 stripped

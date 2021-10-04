@@ -35,7 +35,7 @@ public class PovManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (_inst != null) _inst = this;
+        if (_inst == null) _inst = this;
 
         if (m_CVCs.Count != 8 || m_CVCs.Any(x => x == null)) Debug.LogError("Mandatory: 8 not null CVC.");
     }
