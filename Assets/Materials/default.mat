@@ -85,12 +85,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - HardEdgeAlpha: 0
-    - HardEdgeFalloff: 0
+    - HardEdgeAlpha: 0.56
+    - HardEdgeFalloff: 0.12
     - HardEdgeSize: 0.4
-    - SoftEdgeAlpha: 0
-    - SoftEdgeFalloff: 0
-    - SoftEdgeSize: 28
+    - SoftEdgeAlpha: 1
+    - SoftEdgeFalloff: 0.33
+    - SoftEdgeSize: 26.9
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -105,12 +105,12 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _LightScalar: 1
+    - _LightScalar: 0.6
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueOffset: 0
-    - _RampLevels: 6
+    - _RampLevels: 12
     - _ReceiveShadows: 1
     - _Smoothness: 0.75
     - _SmoothnessTextureChannel: 0
@@ -126,8 +126,8 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissColor: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
-    - _HighColor: {r: 2, g: 2, b: 2, a: 0}
-    - _LowColor: {r: 0.509434, g: 0.509434, b: 0.509434, a: 0}
+    - _HighColor: {r: 2.670157, g: 2.670157, b: 2.670157, a: 0}
+    - _LowColor: {r: 0.1792453, g: 0.1792453, b: 0.1792453, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &480437849301773072
