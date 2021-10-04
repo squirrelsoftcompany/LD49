@@ -15,10 +15,13 @@ public class ModuleCraftor : MonoBehaviour
     private List<GameObject> _activables;
 
     public ModuleData data;
+    private ModuleBehavior moduleBehavior;
 
     // Start is called before the first frame update
     void Start()
     {
+        moduleBehavior = GetComponent<ModuleBehavior>();
+
         _activables = new List<GameObject>();
         foreach (var x in m_activableLocations)
             _activables.Add(null);
@@ -40,21 +43,27 @@ public class ModuleCraftor : MonoBehaviour
         PlaceActivable(RocketCraftor.RandomGet(m_freezerPrefabs));
 
         // display
-        PlaceActivable(RocketCraftor.RandomGet(m_displayPrefabs));
+        GameObject display = PlaceActivable(RocketCraftor.RandomGet(m_displayPrefabs));
+        GetComponent<ModuleBehavior>().mMonitor = display;
     }
 
-    public void PlaceActivable(GameObject go)
+    public GameObject PlaceActivable(GameObject go)
     {
         if (_activables.TrueForAll(x => x != null))
         {
             Debug.LogError("Trying to add an activable but there is no position left.");
-            return;
+            return null;
         }
 
         int index = Random.Range(0, m_activableLocations.Count);
         while(_activables[index] != null)
             index = Random.Range(0, m_activableLocations.Count);
 
-        _activables[index] = Instantiate(go, m_activableLocations[index]);
+        GameObject activable = Instantiate(go, m_activableLocations[index]);
+        var ab = activable.GetComponent<ActivableBehaviour>();
+        if (ab) ab.mParentModule = moduleBehavior;
+
+        _activables[index] = activable;
+        return _activables[index];
     }
 }
