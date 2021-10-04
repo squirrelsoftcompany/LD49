@@ -260,7 +260,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c79d32001f7b8304b866b64353711c24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rocketDatum: []
+  modulePrefabs:
+  - {fileID: -943238472890978990, guid: 9eba51d944b19a14d9845bfd3e3c3268, type: 3}
+  - {fileID: -5163062007687947212, guid: 5f037bf5d68eebf4ba4b29ea184c0407, type: 3}
+  - {fileID: 2382620806939279599, guid: 10349b44d9ab2ab4a974315c246dcb4e, type: 3}
+  boosterPrefabs:
+  - {fileID: 2855487567030170774, guid: 8fab9abf49a73054092c33eb12b2fb89, type: 3}
+  capPrefabs:
+  - {fileID: 5882086028958286367, guid: 1123ec4811938f84a868e661aaceaa7f, type: 3}
+  rocketData:
+    m_twoDistinctPurgeButton: 1
+    m_modules: []
+  rocket: {fileID: 4145838168627186242}
 --- !u!1 &2214904067940589890
 GameObject:
   m_ObjectHideFlags: 0
