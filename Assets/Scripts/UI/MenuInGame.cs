@@ -19,16 +19,16 @@ public class MenuInGame : MonoBehaviour
 
     public void onQuit()
     {
-        //Do something maybe...
+        GameManager.Inst.BackToMenu();
     }
 
-    public void onOverview()
+    public void onFulldisplay()
     {
-        //Do something maybe...
+        GameManager.Inst.Fulldisplay();
     }
 
     public void onValidate()
     {
-        //Do something maybe...
+        GameManager.Inst.Validate();
     }
 }

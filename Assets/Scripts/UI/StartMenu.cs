@@ -23,6 +23,8 @@ public class StartMenu : MonoBehaviour
     public void onPlayClick()
     {
         //Do something maybe...
+        GameManager.Inst.Difficulty = mDifficultySelected;
+        GameManager.Inst.Play();
     }
 
     public void onLevel1Click()
