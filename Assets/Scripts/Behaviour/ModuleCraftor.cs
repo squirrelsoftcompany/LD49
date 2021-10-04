@@ -60,7 +60,7 @@ public class ModuleCraftor : MonoBehaviour
             index = Random.Range(0, m_activableLocations.Count);
 
         GameObject activable = Instantiate(go, m_activableLocations[index]);
-        var ab = activable.GetComponent<ActivableBehaviour>();
+        var ab = activable.GetComponentInChildren<ActivableBehaviour>();
         if (ab) ab.mParentModule = moduleBehavior;
 
         _activables[index] = activable;
