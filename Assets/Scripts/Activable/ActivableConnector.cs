@@ -73,6 +73,4 @@ public class ActivableConnector : ActivableBehaviour
         mTypeFuelConnected = Fuel.eNull;
         mPipeConnected = false;
     }
-
-    
 }
