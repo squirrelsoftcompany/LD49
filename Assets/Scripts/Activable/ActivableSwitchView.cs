@@ -23,6 +23,6 @@ public class ActivableSwitchView : ActivableBehaviour
 
     public override bool IsActivable()
     {
-        return PovManager.Inst.CurrentRocketPOV != GetRocketPOV();
+        return PovManager.Inst.CurrentRocketPOV != GetRocketPOV() && PovManager.Inst.CurrentRocketPOV != PovManager.RocketPOV.eDesk;
     }
 }
