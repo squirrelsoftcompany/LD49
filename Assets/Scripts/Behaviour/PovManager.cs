@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class PovManager : MonoBehaviour
 {
-    private PovManager _inst = null;
-    public PovManager Inst
+    private static PovManager _inst = null;
+    public static PovManager Inst
     {
         get => _inst;
     }
