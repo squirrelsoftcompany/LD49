@@ -104,6 +104,7 @@ public class Monitor : MonoBehaviour
             newObject.transform.parent = mTankBase.transform;
             RectTransform rectTransform = newObject.AddComponent<RectTransform>();
             rectTransform.localPosition = new Vector3(0, 0, 0);
+            rectTransform.localRotation = Quaternion.identity;
             rectTransform.localScale = new Vector3(1, 1, 1);
             rectTransform.pivot = new Vector2(0.5f, 0);
             rectTransform.sizeDelta = new Vector2(100, 0);
