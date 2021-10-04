@@ -32,6 +32,8 @@ MonoBehaviour:
   mPieMenu: {fileID: 851558340131149787, guid: 72e0a361e60cc2f48afe6ad0930a9b9b, type: 3}
   mPipeConnected: 0
   m_hotspotConnector: {fileID: 4659203604369174945}
+  MatConnectorOn: {fileID: 2100000, guid: 61c20ac3392b3914d9d4b7c7c28bb073, type: 2}
+  MatConnectorOff: {fileID: 2100000, guid: 4e04829b150cb2647b69d56a77d4518d, type: 2}
 --- !u!1 &4995856494598502046
 GameObject:
   m_ObjectHideFlags: 0
@@ -120,7 +122,7 @@ PrefabInstance:
     - target: {fileID: -7635826562936255635, guid: 20d1f48a9e076ac4a8df982bae04aa6d, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 04cb76300b861774a81af3e7e9790a1f, type: 2}
+      objectReference: {fileID: 2100000, guid: 4e04829b150cb2647b69d56a77d4518d, type: 2}
     - target: {fileID: -7635826562936255635, guid: 20d1f48a9e076ac4a8df982bae04aa6d, type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
