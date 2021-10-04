@@ -54,6 +54,7 @@ public class RocketCraftor : MonoBehaviour
 
         // add cap
         GameObject cap = Instantiate(RandomGet(capPrefabs), new Vector3(0, height, 0), Quaternion.identity, rocket);
+        cap.GetComponentInChildren<ActivableSwitchViewCap>().capPOV = rocketPOV;
     }
 
     public static T RandomGet<T>(List<T> list)

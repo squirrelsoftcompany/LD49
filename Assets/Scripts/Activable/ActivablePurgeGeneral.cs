@@ -17,8 +17,8 @@ public class ActivablePurgeGeneral : ActivablePurge
         System.Array.ForEach(FindObjectsOfType<ModuleBehavior>(), x => { x.activePurge(false); if (managePressure) x.activePressureEvacuation(false); });
     }
 
-    public override bool IsActivable()
+    public override PovManager.RocketPOV GetRocketPOV()
     {
-        return PovManager.Inst.CurrentRocketPOV == PovManager.RocketPOV.eBooster;
+        return PovManager.RocketPOV.eBooster;
     }
 }

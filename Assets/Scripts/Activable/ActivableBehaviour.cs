@@ -61,7 +61,7 @@ public class ActivableBehaviour : MonoBehaviour
         }
     }
 
-    void OnMouseExit()
+    protected void OnMouseExit()
     {
         isMouseOver = false;
         Material[] materials = this.GetComponent<MeshRenderer>().materials;
@@ -102,6 +102,11 @@ public class ActivableBehaviour : MonoBehaviour
 
     public virtual bool IsActivable()
     {
-        return PovManager.Inst.CurrentRocketPOV == mParentModule.RocketPOV;
+        return PovManager.Inst.CurrentRocketPOV == GetRocketPOV();
+    }
+
+    public virtual PovManager.RocketPOV GetRocketPOV()
+    {
+        return mParentModule.RocketPOV;
     }
 }

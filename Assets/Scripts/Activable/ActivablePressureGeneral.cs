@@ -14,8 +14,8 @@ public class ActivablePressureGeneral : ActivablePressure
         System.Array.ForEach(FindObjectsOfType<ModuleBehavior>(), x => x.activePressureEvacuation(false));
     }
 
-    public override bool IsActivable()
+    public override PovManager.RocketPOV GetRocketPOV()
     {
-        return PovManager.Inst.CurrentRocketPOV == PovManager.RocketPOV.eBooster;
+        return PovManager.RocketPOV.eBooster;
     }
 }
