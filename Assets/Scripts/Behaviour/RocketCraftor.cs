@@ -33,7 +33,12 @@ public class RocketCraftor : MonoBehaviour
         }
 
         // Generate
-        rocketData = RocketData.GenerateHardRocket();
+        if (GameManager.Inst.Difficulty == 1)
+            rocketData = RocketData.GenerateEasyRocket();
+        else if (GameManager.Inst.Difficulty == 2)
+            rocketData = RocketData.GenerateNormalRocket();
+        else
+            rocketData = RocketData.GenerateHardRocket();
 
         // add booster
         float height = 2.5f + rocket.position.y;
