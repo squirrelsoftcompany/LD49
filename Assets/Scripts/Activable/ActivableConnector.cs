@@ -5,21 +5,33 @@ using UnityEngine;
 public class ActivableConnector : ActivableBehaviour
 {
     public GameObject mPieMenu;
+    private RadialMenu mEffectivePieMenu = null;
 
     public bool mPipeConnected = false;
     private Fuel mTypeFuelConnected;
+
+    protected override void Start()
+    {
+        base.Start();
+        mEffectivePieMenu = FindObjectOfType<RadialMenu>();
+        if (mEffectivePieMenu == null)
+        {
+            mPieMenu = Instantiate(mPieMenu, transform.root);
+            mEffectivePieMenu = mPieMenu.GetComponentInChildren<RadialMenu>();
+        }
+    }
 
     public override void clickDownBehavior()
     {
         if( !mPipeConnected )
         {
             //Open the pie menus
-            mPieMenu.GetComponent<RadialMenu>().setConnector(this);
-            mPieMenu.GetComponent<RadialMenu>().show();
+            mEffectivePieMenu.setConnector(this);
+            mEffectivePieMenu.show();
         }
         else
         {
-            mPieMenu.GetComponent<RadialMenu>().setConnector(null);
+            mEffectivePieMenu.setConnector(null);
             disconnectFuel(mTypeFuelConnected);
         }
     }
@@ -39,17 +51,17 @@ public class ActivableConnector : ActivableBehaviour
 
     public override void Active()
     {
-        mParentModule.GetComponent<ModuleBehavior>().activePressureEvacuation(true);
+        mParentModule.activePressureEvacuation(true);
     }
 
     public override void Stop()
     {
-        mParentModule.GetComponent<ModuleBehavior>().activePressureEvacuation(false);
+        mParentModule.activePressureEvacuation(false);
     }
 
     public void connectFuel(Fuel pFuel)
     {
-        mParentModule.GetComponent<ModuleBehavior>().connectPipe(pFuel);
+        mParentModule.connectPipe(pFuel);
         mTypeFuelConnected = pFuel;
         mPipeConnected = true;
 
@@ -57,7 +69,7 @@ public class ActivableConnector : ActivableBehaviour
 
     public void disconnectFuel(Fuel pFuel)
     {
-        mParentModule.GetComponent<ModuleBehavior>().disconnectPipe(pFuel);
+        mParentModule.disconnectPipe(pFuel);
         mTypeFuelConnected = Fuel.eNull;
         mPipeConnected = false;
     }
