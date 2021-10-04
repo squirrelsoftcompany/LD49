@@ -492,6 +492,31 @@ MonoBehaviour:
     m_purgePressionPresent: 1
     m_purgeErgolPresent: 1
     m_fuels: 
+--- !u!114 &7623193817361128038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8569637659955775124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4019b9fc7d7630c4789eda6c735dfcb3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RocketPOV: 0
+  mGoalPressure: 0
+  mGoalTemp: 0
+  mGoalErgolStack: []
+  mMonitor: {fileID: 0}
+  mPressure: 0
+  mTemp: 0
+  mNbPipeConnected: 0
+  mFillSlots: 000000000000000000000000
+  mActiveFill: 0
+  mActivePurge: 0
+  mActiveFreeze: 0
+  mActivePressureEvacuation: 0
 --- !u!1001 &8803431016169765829
 PrefabInstance:
   m_ObjectHideFlags: 0
