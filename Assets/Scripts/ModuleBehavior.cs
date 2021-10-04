@@ -96,6 +96,9 @@ public class ModuleBehavior : MonoBehaviour
     private SoundManager mSoundManagerScript;
 
 
+    public ParticleSystem mParticuleSystem;
+
+
     //Goal to valid module
     public float mGoalPressure; // +/- 1
     public float mGoalTemp; // +/- 1
@@ -150,6 +153,10 @@ public class ModuleBehavior : MonoBehaviour
     {
         mSoundManagerScript = mSoundManager.GetComponent<SoundManager>();
 
+        ParticleSystem.EmissionModule emission = mParticuleSystem.emission;
+        emission.enabled = false;
+        emission.SetBursts(new ParticleSystem.Burst[] { new ParticleSystem.Burst(0.0f, 0)});
+
         mMonitor.GetComponent<Monitor>().setModuleGoalInformation(mGoalErgolStack);
     }
 
@@ -201,7 +208,7 @@ public class ModuleBehavior : MonoBehaviour
         if (mPressure >= mPressureLimit)
         {
             mOverPressure = true;
-            mLife -= (Time.deltaTime * mDommageOverPressure);
+            reduceLife(Time.deltaTime * mDommageOverPressure);
         }
         else
         {
@@ -218,7 +225,7 @@ public class ModuleBehavior : MonoBehaviour
         if (mTemp >= mTempLimit)
         {
             mOverTemp = true;
-            mLife -= (Time.deltaTime * mDommageOverTemp);
+            reduceLife(Time.deltaTime * mDommageOverTemp);
         }
         else
         {
@@ -232,6 +239,15 @@ public class ModuleBehavior : MonoBehaviour
 
         // ----- End of anomalis check
 
+    }
+
+    public void reduceLife(float pNewLife)
+    {
+        mLife -= pNewLife;
+        int burstCount = 5 * (10 - (Mathf.FloorToInt(mLife) / 10));
+        ParticleSystem.EmissionModule emission = mParticuleSystem.emission;
+        emission.enabled = true;
+        emission.SetBursts(new ParticleSystem.Burst[] { new ParticleSystem.Burst(0.0f, burstCount) });
     }
 
     void fill()

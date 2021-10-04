@@ -14,7 +14,7 @@ public class MenuInGame : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        GetComponentInChildren<Canvas>().enabled = GameManager.Inst.mGameState == GameManager.GameState.eIngame;
     }
 
     public void onQuit()

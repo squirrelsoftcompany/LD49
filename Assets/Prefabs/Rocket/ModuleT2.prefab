@@ -289,6 +289,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RocketPOV: 0
   mSoundManager: {fileID: 6856563340448545660}
+  mParticuleSystem: {fileID: 7781963531932095888}
   mGoalPressure: 0
   mGoalTemp: 0
   mGoalErgolStack: []
@@ -393,6 +394,68 @@ PrefabInstance:
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6001542402165888783, guid: cc4b4d31452083f499bb03ff677e0bd5, type: 3}
   m_PrefabInstance: {fileID: 895841408067071091}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &6529989531706802905
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 9054109508804615214}
+    m_Modifications:
+    - target: {fileID: 3080888634434061962, guid: 78c0ca6252945574994bdfbbedb9f842, type: 3}
+      propertyPath: m_RootOrder
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3080888634434061962, guid: 78c0ca6252945574994bdfbbedb9f842, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3080888634434061962, guid: 78c0ca6252945574994bdfbbedb9f842, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3080888634434061962, guid: 78c0ca6252945574994bdfbbedb9f842, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3080888634434061962, guid: 78c0ca6252945574994bdfbbedb9f842, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3080888634434061962, guid: 78c0ca6252945574994bdfbbedb9f842, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3080888634434061962, guid: 78c0ca6252945574994bdfbbedb9f842, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3080888634434061962, guid: 78c0ca6252945574994bdfbbedb9f842, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3080888634434061962, guid: 78c0ca6252945574994bdfbbedb9f842, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3080888634434061962, guid: 78c0ca6252945574994bdfbbedb9f842, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3080888634434061962, guid: 78c0ca6252945574994bdfbbedb9f842, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7634696230262359029, guid: 78c0ca6252945574994bdfbbedb9f842, type: 3}
+      propertyPath: m_Name
+      value: HpLoss
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 78c0ca6252945574994bdfbbedb9f842, type: 3}
+--- !u!198 &7781963531932095888 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 3557905809771599689, guid: 78c0ca6252945574994bdfbbedb9f842, type: 3}
+  m_PrefabInstance: {fileID: 6529989531706802905}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8803431016169765829
 PrefabInstance:

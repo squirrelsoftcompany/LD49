@@ -39,6 +39,8 @@ public class PovManager : MonoBehaviour
         if (_inst == null) _inst = this;
 
         if (m_CVCs.Count != (int)RocketPOV.eNBPov || m_CVCs.Any(x => x == null)) Debug.LogError("Mandatory: " + (int)RocketPOV.eNBPov + " not null CVC.");
+
+        SwitchToMenu();
     }
 
     // Update is called once per frame
