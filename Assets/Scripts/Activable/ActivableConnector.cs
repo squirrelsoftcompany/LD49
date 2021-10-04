@@ -11,7 +11,9 @@ public class ActivableConnector : ActivableBehaviour
     private Fuel mTypeFuelConnected;
 
     public Transform m_hotspotConnector;
-    public Material MatConnectorOn;
+    public Material MatConnectorE1;
+    public Material MatConnectorE2;
+    public Material MatConnectorE3;
     public Material MatConnectorOff;
 
     protected override void Start()
@@ -62,7 +64,10 @@ public class ActivableConnector : ActivableBehaviour
         {
             Debug.Log("Can't found a free connector.");
         }
-        GetComponent<MeshRenderer>().material = MatConnectorOn;
+
+        GetComponent<MeshRenderer>().material = MatConnectorE1;
+        if (pFuel != Fuel.eE1) GetComponent<MeshRenderer>().material = pFuel != Fuel.eE2 ? MatConnectorE3 : MatConnectorE2;
+
         mPipeConnected = true;
     }
 
