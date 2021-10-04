@@ -40,20 +40,25 @@ public class ModuleBehavior : MonoBehaviour
     [Range(MIN_TEMP, MAX_TEMP)]
     public float mTemp;
     private List<ergolInTank> mErgolStack = new List<ergolInTank>();
+    public int mNbPipeConnected = 0;
     private int mLife = 100;
 
     // 3 full slots max. eNull if not used
-    public Fuel mFillSlotONE = Fuel.eNull;
-    public Fuel mFillSlotTWO = Fuel.eNull;
-    public Fuel mFillSlotTHREE = Fuel.eNull;
+    public Fuel[] mFillSlots = { Fuel.eNull, Fuel.eNull, Fuel.eNull };
 
     public bool mActiveFill = false;  //If true, we call fill() at update
     public bool mActivePurge = false;  //If true, we call purge() at update
+    public bool mActiveFreeze = false;  //If true, we call purge() at update
     public bool mActivePressureEvacuation = false;  //If true, we call purge() at update
 
     private float mFillSpeed = 5.0f; // Percent of the fulltank fill in 1 sec
     private float mPurgeSpeed = 20.0f; // Percent of the fulltank purge in 1 sec
     private float mPressureEvacuationSpeed = 1.0f; // MPa.s-1
+    private float mTempEvacuationSpeed = 5.0f; // MPa.s-1
+
+    //Duration temperature diminution
+    private float mFreezeDuration = 5.0f;
+    private float mFreezeDurationTimeRemaining = 0.0f;
 
 
     // Others variables
@@ -80,6 +85,10 @@ public class ModuleBehavior : MonoBehaviour
         {
             pressureEvacuation();
         }
+        if (mActiveFreeze)
+        {
+            freezing();
+        }
 
         //Send information to the monitor
         mMonitor.GetComponent<Monitor>().setModuleInformation(mErgolStack, mPressure, Mathf.InverseLerp(MIN_TEMP, MAX_TEMP, mTemp)*100.0f );
@@ -88,17 +97,13 @@ public class ModuleBehavior : MonoBehaviour
     void fill()
     {
 
-        int currentFull = Convert.ToInt32(mFillSlotONE | mFillSlotTWO | mFillSlotTHREE);
+        int currentFull = Convert.ToInt32(mFillSlots[0] | mFillSlots[1] | mFillSlots[2]);
 
         if (currentFull != Convert.ToInt32(Fuel.eNull))
         {
-            
-
-
             if (mErgolStack.Count > 0 && mErgolStack[mErgolStack.Count - 1].ergolType == (Fuel)currentFull)
             {
                 mErgolStack[mErgolStack.Count - 1].quantity += Time.deltaTime * mFillSpeed;
-
             }
             else
             {
@@ -157,13 +162,75 @@ public class ModuleBehavior : MonoBehaviour
         return moduleValid;
     }
 
-    void coolerShot()
+    void freezing()
     {
-        mTemp = mTemp - 20.0f;
+
+        if (mFreezeDurationTimeRemaining > 0)
+        {
+            mTemp -= Time.deltaTime * mTempEvacuationSpeed;
+            mFreezeDurationTimeRemaining -= Time.deltaTime;
+        }
+        else
+        {
+            mActiveFreeze = false;
+            mFreezeDurationTimeRemaining = mFreezeDuration;
+        }
     }
 
     void pressureEvacuation()
     {
         mPressure -= Time.deltaTime * mPressureEvacuationSpeed;
+    }
+
+    //Callable methode by event system
+
+    public void activePurge(bool active)
+    {
+        mActivePurge = active;
+    }
+
+    public void activeFreeze(bool active)
+    {
+        mActiveFreeze = active;
+    }
+
+    public void activeFill(bool active)
+    {
+        mActiveFill = active;
+    }
+    public void activePressureEvacuation(bool active)
+    {
+        mActivePressureEvacuation = active;
+    }
+
+    public void connectPipe(Fuel pFuel)
+    {
+
+        if (mNbPipeConnected < 3) //TODO : Change max connector number 
+        {
+            for(int i = 0; i < mFillSlots.Length; i++)
+            {
+                if (mFillSlots[i] == Fuel.eNull)
+                {
+                    mFillSlots[i] = pFuel;
+                    break;
+                }
+            }
+            mNbPipeConnected++;
+        }
+    }
+
+    public void disconnectPipe(Fuel pFuel) /* pFuel = Previous full*/
+    {
+        /* Disconnect first slot with corresponding fuel */
+        for (int i = 0; i < mFillSlots.Length; i++)
+        {
+            if (mFillSlots[i] == pFuel)
+            {
+                mFillSlots[i] = Fuel.eNull;
+                break;
+            }
+        }
+        mNbPipeConnected--;
     }
 }

@@ -44,6 +44,14 @@ public class Monitor : MonoBehaviour
     public Sprite mLimit;
     public Sprite mLimitCursor;
 
+    public Color mE1;
+    public Color mE2;
+    public Color mE3;
+    public Color mE4;
+    public Color mE5;
+    public Color mE6;
+    public Color mE7;
+
 
     // Start is called before the first frame update
     void Start()
@@ -104,25 +112,25 @@ public class Monitor : MonoBehaviour
             switch (ergoleElement.ergolType)
             {
                 case Fuel.eE1:
-                    currentErgol.color = new Color(1f, 0.3f, 0.3f, 1);
+                    currentErgol.color = mE1;
                     break;
                 case Fuel.eE2:
-                    currentErgol.color = new Color(0.3f, 1f, 0.3f, 1);
+                    currentErgol.color = mE2;
                     break;
                 case Fuel.eE3:
-                    currentErgol.color = new Color(0.3f, 0.3f, 1f, 1);
+                    currentErgol.color = mE3;
                     break;
                 case (Fuel.eE1 | Fuel.eE2):
-                    currentErgol.color = new Color(1f, 1f, 0.3f, 1);
+                    currentErgol.color = mE4;
                     break;
                 case (Fuel.eE1 | Fuel.eE3):
-                    currentErgol.color = new Color(1f, 0.3f, 1f, 1);
+                    currentErgol.color = mE5;
                     break;
                 case (Fuel.eE2 | Fuel.eE3):
-                    currentErgol.color = new Color(0.3f, 1f, 1f, 1);
+                    currentErgol.color = mE6;
                     break;
                 case (Fuel.eE1 | Fuel.eE2 | Fuel.eE3):
-                    currentErgol.color = new Color(0.5f, 0.3f, 0f, 1);
+                    currentErgol.color = mE7;
                     break;
                 default:
                     break;
@@ -152,25 +160,25 @@ public class Monitor : MonoBehaviour
             switch (ergolelimitElement.ergolType)
             {
                 case Fuel.eE1:
-                    currentErgol.color = new Color(1f, 0.3f, 0.3f, 1);
+                    currentErgol.color = mE1;
                     break;
                 case Fuel.eE2:
-                    currentErgol.color = new Color(0.3f, 1f, 0.3f, 1);
+                    currentErgol.color = mE2;
                     break;
                 case Fuel.eE3:
-                    currentErgol.color = new Color(0.3f, 0.3f, 1f, 1);
+                    currentErgol.color = mE3;
                     break;
                 case (Fuel.eE1 | Fuel.eE2):
-                    currentErgol.color = new Color(1f, 1f, 0.3f, 1);
+                    currentErgol.color = mE4;
                     break;
                 case (Fuel.eE1 | Fuel.eE3):
-                    currentErgol.color = new Color(1f, 0.3f, 1f, 1);
+                    currentErgol.color = mE5;
                     break;
                 case (Fuel.eE2 | Fuel.eE3):
-                    currentErgol.color = new Color(0.3f, 1f, 1f, 1);
+                    currentErgol.color = mE6;
                     break;
                 case (Fuel.eE1 | Fuel.eE2 | Fuel.eE3):
-                    currentErgol.color = new Color(0.5f, 0.3f, 0f, 1);
+                    currentErgol.color = mE7;
                     break;
                 default:
                     break;
