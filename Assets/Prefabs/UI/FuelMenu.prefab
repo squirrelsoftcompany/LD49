@@ -240,7 +240,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &851558339513066635
 RectTransform:
   m_ObjectHideFlags: 0
@@ -606,6 +606,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mInputPosition: {x: 0, y: 0}
   mInputDistance: 0
+  mConnector: {fileID: 0}
   mMenuGO: {fileID: 851558339513066632}
   mHoveredGO:
   - {fileID: 851558339060875243}
