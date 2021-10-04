@@ -24,6 +24,11 @@ public class RocketCraftor : MonoBehaviour
         
     }
 
+    public void LaunchChangeRocketAnimation()
+    {
+        GetComponent<Animator>().SetTrigger("ChangeRocket");
+    }
+
     public void CraftNewRocket()
     {
         // Clean

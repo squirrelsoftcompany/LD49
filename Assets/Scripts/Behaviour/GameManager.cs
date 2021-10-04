@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviour
     {
         mGameState = GameState.eIngame;
         Fulldisplay();
-        FindObjectOfType<RocketCraftor>().CraftNewRocket();
+        FindObjectOfType<RocketCraftor>().LaunchChangeRocketAnimation();
     }
 
     public void Fulldisplay()
