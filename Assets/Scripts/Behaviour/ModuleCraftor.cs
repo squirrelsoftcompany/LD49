@@ -55,7 +55,7 @@ public class ModuleCraftor : MonoBehaviour
         {
             if(i < data.m_fuels.Count-1)
             {
-                newQuantity = Random.Range(minFuel, maxFull + 1);
+                newQuantity = Random.Range(minFuel+10, maxFull + 1);
             }
             else
             {
