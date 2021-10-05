@@ -160,6 +160,12 @@ public class ModuleBehavior : MonoBehaviour
         mMonitor.GetComponent<Monitor>().setModuleGoalInformation(mGoalErgolStack);
     }
 
+    public void setGoal(List<ergolInTank> pGoal)
+    {
+        mGoalErgolStack = pGoal;
+    }
+
+
     // Update is called once per frame
     void Update()
     {

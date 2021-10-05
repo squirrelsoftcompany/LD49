@@ -45,6 +45,28 @@ public class ModuleCraftor : MonoBehaviour
         // display
         GameObject display = PlaceActivable(RocketCraftor.RandomGet(m_displayPrefabs));
         GetComponent<ModuleBehavior>().mMonitor = display;
+
+        // Generate fuel goal
+        List<ergolInTank> pGoal = new List<ergolInTank> {};
+        int minFuel = 0;
+        int newQuantity;
+        int maxFull = (100 - data.m_fuels.Count * 10);
+        for (int i=0;i< data.m_fuels.Count;i++)
+        {
+            if(i < data.m_fuels.Count-1)
+            {
+                newQuantity = Random.Range(minFuel, maxFull + 1);
+            }
+            else
+            {
+                newQuantity = 100;
+            }
+
+            minFuel = newQuantity;
+            maxFull = (100 - (data.m_fuels.Count-i) * 10);
+            pGoal.Add(new ergolInTank(data.m_fuels[i], minFuel));
+        }
+        moduleBehavior.setGoal(pGoal);
     }
 
     public GameObject PlaceActivable(GameObject go)

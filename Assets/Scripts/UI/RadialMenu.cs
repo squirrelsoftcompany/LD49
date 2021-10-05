@@ -33,7 +33,7 @@ public class RadialMenu : MonoBehaviour
         mInputDistance = mInputPosition.magnitude;
         mInputPosition.Normalize();
 
-        if(mInputDistance < 100.0f)
+        if(mInputDistance < 50.0f)
         {
             mHoveredElement = -1;
             for (int i = 0; i < mNormalGO.Length; ++i)

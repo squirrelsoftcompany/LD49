@@ -21,8 +21,8 @@ public class GameManager : MonoBehaviour
     }
 
 
-    private float mDifficulty;
-    public float Difficulty
+    private int mDifficulty;
+    public int Difficulty
     {
         get { return mDifficulty; }
         set { mDifficulty = value; }
@@ -58,8 +58,8 @@ public class GameManager : MonoBehaviour
     public void Play()
     {
         mGameState = GameState.eIngame;
-        PovManager.Inst.SwitchToFD();
-        //TODO : Move camera
+        Fulldisplay();
+        FindObjectOfType<RocketCraftor>().LaunchChangeRocketAnimation();
     }
 
     public void Fulldisplay()
