@@ -150,6 +150,7 @@ public class Monitor : MonoBehaviour
             GameObject newObject = new GameObject("ErgolLimitLayer");
             newObject.transform.parent = mTankBase.transform;
             RectTransform rectTransform = newObject.AddComponent<RectTransform>();
+            rectTransform.localRotation = Quaternion.identity;
             rectTransform.localPosition = new Vector3(0, 0, 0);
             rectTransform.localScale = new Vector3(1, 1, 1);
             rectTransform.sizeDelta = new Vector2(100, 0);
