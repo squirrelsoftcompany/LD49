@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public static float TIMER_MAX = 10.0f * 60.0f;
 
     public enum GameState
     {
@@ -26,6 +27,14 @@ public class GameManager : MonoBehaviour
     {
         get { return mDifficulty; }
         set { mDifficulty = value; }
+    }
+
+
+    private float mTimer;
+    public float Timer
+    {
+        get { return mTimer; }
+        set { mTimer = value; }
     }
 
 
@@ -52,12 +61,24 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(mGameState == GameState.eIngame)
+        {
+            if(mTimer > 0)
+            {
+                mTimer -= Time.deltaTime;
+            }
+            else
+            {
+                // TODO : Time is over... launch the rocket 
+            }
+        }
         
     }
 
     public void Play()
     {
         mGameState = GameState.eIngame;
+        mTimer = TIMER_MAX;
         Fulldisplay();
         FindObjectOfType<RocketCraftor>().LaunchChangeRocketAnimation();
     }
@@ -79,5 +100,10 @@ public class GameManager : MonoBehaviour
         PovManager.Inst.SwitchToMenu();
         //TODO : Animation tablet
         //TODO : Move camera
+    }
+
+    public float getTimer()
+    {
+        return mTimer;
     }
 }
