@@ -209,7 +209,7 @@ public class Monitor : MonoBehaviour
     private float TankRelativePosition(float pPercent)
     {
         float distance = mTankTop.transform.localPosition.y - mTankBase.transform.localPosition.y;
-        return (pPercent/100 * distance);
+        return (pPercent/100.0f * distance);
     }
 
 

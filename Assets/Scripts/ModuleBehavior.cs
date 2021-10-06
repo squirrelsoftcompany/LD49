@@ -74,21 +74,21 @@ public class ModuleBehavior : MonoBehaviour
     public const float MAX_TEMP = 200.0f;
     public const float TEMP_FACTOR = 0.5f;
 
-    public const float PRESSURE_FACTOR_E1 = 1.2f;    
-    public const float PRESSURE_FACTOR_E2 = 1.8f;
-    public const float PRESSURE_FACTOR_E3 = 1.5f;
-    public const float PRESSURE_FACTOR_E4 = 2.4f;
-    public const float PRESSURE_FACTOR_E5 = 3.7f;
-    public const float PRESSURE_FACTOR_E6 = 6.5f;
-    public const float PRESSURE_FACTOR_E7 = 5.0f;
+    public const float PRESSURE_FACTOR_E1 = 0.7f;    
+    public const float PRESSURE_FACTOR_E2 = 0.8f;
+    public const float PRESSURE_FACTOR_E3 = 1.0f;
+    public const float PRESSURE_FACTOR_E4 = 1.2f;
+    public const float PRESSURE_FACTOR_E5 = 1.5f;
+    public const float PRESSURE_FACTOR_E6 = 1.5f;
+    public const float PRESSURE_FACTOR_E7 = 1.8f;
 
-    public const float TEMP_FACTOR_E1 = 1.2f;
-    public const float TEMP_FACTOR_E2 = 1.8f;
-    public const float TEMP_FACTOR_E3 = 1.5f;
+    public const float TEMP_FACTOR_E1 = 0.8f;
+    public const float TEMP_FACTOR_E2 = 0.8f;
+    public const float TEMP_FACTOR_E3 = 1.0f;
     public const float TEMP_FACTOR_E4 = -1.4f;
-    public const float TEMP_FACTOR_E5 = 2.7f;
-    public const float TEMP_FACTOR_E6 = 2.3f;
-    public const float TEMP_FACTOR_E7 = 4.0f;
+    public const float TEMP_FACTOR_E5 = 1.7f;
+    public const float TEMP_FACTOR_E6 = 1.3f;
+    public const float TEMP_FACTOR_E7 = 2.0f;
 
     public PovManager.RocketPOV RocketPOV;
 
@@ -131,14 +131,14 @@ public class ModuleBehavior : MonoBehaviour
     private float mFullTankPressureSpeed = 5.0f; 
     private float mPurgeSpeed = 20.0f; // Percent of the fulltank purge in 1 sec
     private float mPressureEvacuationSpeed = 10.0f; // MPa.s-1
-    private float mTempEvacuationSpeed = 5.0f; // MPa.s-1
+    private float mTempEvacuationSpeed = 10.0f; // C.s-1
 
     //Dommage ratio
     private float mDommageOverPressure = 2.0f; // Dommage in 1 sec
     private float mDommageOverTemp = 2.0f; // Dommage in 1 sec
 
     //Duration temperature diminution
-    private float mFreezeDuration = 5.0f;
+    private float mFreezeDuration = 3.0f;
     private float mFreezeDurationTimeRemaining = 0.0f;
 
 
@@ -271,7 +271,12 @@ public class ModuleBehavior : MonoBehaviour
         if (currentFull != Fuel.eNull )
         {
             bool lastOverflowState = mFuelOverflow;
-            if (mErgolStack.Count < 1 || mErgolStack[mErgolStack.Count - 1].quantity < 100.0f)
+            float totalFuel = 0;
+            for(int i = 0; i < mErgolStack.Count; i++ )
+            {
+                totalFuel += mErgolStack[i].quantity;
+            }
+            if (mErgolStack.Count < 1 || totalFuel < 100.0f)
             {
                 mFuelOverflow = false;
                 if (mErgolStack.Count > 0 && mErgolStack[mErgolStack.Count - 1].ergolType == currentFull)
