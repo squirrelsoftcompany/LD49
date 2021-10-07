@@ -100,8 +100,8 @@ public class ModuleBehavior : MonoBehaviour
 
 
     //Goal to valid module
-    public float mGoalPressure; // +/- 1
-    public float mGoalTemp; // +/- 1
+    public float mGoalPressure;
+    public float mGoalTemp;
 
     public List<ergolInTank> mGoalErgolStack;
     public GameObject mMonitor;
@@ -333,13 +333,13 @@ public class ModuleBehavior : MonoBehaviour
         bool moduleValid = true;
 
         //Check temp
-        if(mTemp < mGoalTemp +1 && mTemp > mGoalTemp-1)
+        if ( mTemp < mGoalTemp +1 )
         {
             moduleValid &= true;
         }
 
         //Check pressure
-        if (mPressure < mGoalPressure+ 1 && mPressure > mGoalPressure - 1)
+        if ( mPressure < mGoalPressure+ 1 )
         {
             moduleValid &= true;
         }
@@ -347,11 +347,13 @@ public class ModuleBehavior : MonoBehaviour
         //Check full
         if(mErgolStack.Count == mGoalErgolStack.Count)
         {
-            for( int i =0; i < mErgolStack.Count; i++)
+            float currentFuelGoal = 0;
+            for ( int i=0; i < mErgolStack.Count; i++)
             {
                 if (mErgolStack[i].ergolType == mGoalErgolStack[i].ergolType)
                 {
-                    if(mErgolStack[i].quantity < mGoalErgolStack[i].quantity + 1 && mErgolStack[i].quantity > mGoalErgolStack[i].quantity - 1)
+                    currentFuelGoal = (i>0) ? mGoalErgolStack[i].quantity - mGoalErgolStack[i-1].quantity : mGoalErgolStack[i].quantity;
+                    if (mErgolStack[i].quantity < currentFuelGoal + 1 && mErgolStack[i].quantity > currentFuelGoal - 1)
                     {
                         moduleValid &= true;
                     }
