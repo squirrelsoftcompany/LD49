@@ -397,7 +397,10 @@ public class ModuleBehavior : MonoBehaviour
     public void activePurge(bool active)
     {
         mActivePurge = active;
-        mSoundManagerScript.playFuelPurge(active);
+        if(mNbPipeConnected > 0)    //Do thing only if pipes are connected
+        {
+            mSoundManagerScript.playFuelPurge(active);
+        }
     }
 
     public void activeFreeze(bool active)
@@ -450,6 +453,10 @@ public class ModuleBehavior : MonoBehaviour
             }
         }
         mNbPipeConnected--;
+        if (mNbPipeConnected == 0)
+        {
+            activePurge(false);
+        }
         mSoundManagerScript.playPipeClip();
     }
 }
