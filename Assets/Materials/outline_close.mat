@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: ouline_close
+  m_Name: outline_close
   m_Shader: {fileID: 4800000, guid: c5d863f514235404985d0d2c0ec3b8a5, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
