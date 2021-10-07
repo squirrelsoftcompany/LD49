@@ -397,10 +397,7 @@ public class ModuleBehavior : MonoBehaviour
     public void activePurge(bool active)
     {
         mActivePurge = active;
-        if(mNbPipeConnected > 0)    //Do thing only if pipes are connected
-        {
-            mSoundManagerScript.playFuelPurge(active);
-        }
+        mSoundManagerScript.playFuelPurge(active);
     }
 
     public void activeFreeze(bool active)
@@ -415,8 +412,12 @@ public class ModuleBehavior : MonoBehaviour
         if(!active)
         {
             mFuelOverflow = false; // Stop overflow state
+            mSoundManagerScript.playFuelFill(active);
         }
-        mSoundManagerScript.playFuelFill(active);
+        if (mNbPipeConnected > 0)    //Do thing only if pipes are connected
+        {
+            mSoundManagerScript.playFuelFill(active);
+        }
     }
     public void activePressureEvacuation(bool active)
     {
@@ -455,7 +456,7 @@ public class ModuleBehavior : MonoBehaviour
         mNbPipeConnected--;
         if (mNbPipeConnected == 0)
         {
-            activePurge(false);
+            activeFill(false);
         }
         mSoundManagerScript.playPipeClip();
     }
