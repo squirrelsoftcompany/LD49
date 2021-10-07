@@ -27,7 +27,7 @@ public class ModuleCraftor : MonoBehaviour
             _activables.Add(null);
 
         // manage connectors
-        int connectorCount = Random.Range(data.MinimalNumberOfConnector(), 4+1);
+        int connectorCount = Random.Range(data.MinimalNumberOfConnector(), 3+1);
         for (int i = 0; i < connectorCount; i++)
         {
             PlaceActivable(RocketCraftor.RandomGet(m_connectorPrefabs));
