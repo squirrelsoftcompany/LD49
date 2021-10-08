@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class RocketCraftor : MonoBehaviour
 {
+    public static RocketCraftor _instance = null;
+    public static RocketCraftor Inst { get => _instance; }
+
     public List<ModuleCraftor> modulePrefabs;
     public List<BoosterCraftor> boosterPrefabs;
     public List<GameObject> capPrefabs;
@@ -12,10 +15,14 @@ public class RocketCraftor : MonoBehaviour
     public RocketData rocketData;
     public Transform rocket;
 
+    private List<ModuleBehavior> _currentModules;
+
     // Start is called before the first frame update
     void Start()
     {
+        if (!_instance) _instance = this;
 
+        _currentModules = rocket.GetComponentsInChildren<ModuleBehavior>().ToList();
     }
 
     // Update is called once per frame
@@ -36,6 +43,7 @@ public class RocketCraftor : MonoBehaviour
         {
             Destroy(t.gameObject);
         }
+        _currentModules.Clear();
 
         // Generate
         if (GameManager.Inst.Difficulty == 1)
@@ -57,7 +65,9 @@ public class RocketCraftor : MonoBehaviour
         {
             ModuleCraftor moduleCraftor = Instantiate(RandomGet(modulePrefabs), new Vector3(0, height, 0), Quaternion.AngleAxis(Random.Range(0, 8) * 45, Vector3.up), rocket);
             moduleCraftor.data = mod;
-            moduleCraftor.GetComponent<ModuleBehavior>().RocketPOV = rocketPOV;
+            ModuleBehavior mb = moduleCraftor.GetComponent<ModuleBehavior>();
+            mb.RocketPOV = rocketPOV;
+            _currentModules.Add(mb);
             rocketPOV += 1;
             height += 3;
         }
@@ -65,6 +75,11 @@ public class RocketCraftor : MonoBehaviour
         // add cap
         GameObject cap = Instantiate(RandomGet(capPrefabs), new Vector3(0, height, 0), Quaternion.identity, rocket);
         cap.GetComponentInChildren<ActivableSwitchViewCap>().capPOV = rocketPOV;
+    }
+
+    public bool CanBeValidated()
+    {
+        return _currentModules.All(x => x.moduleValidity());
     }
 
     public static T RandomGet<T>(List<T> list)

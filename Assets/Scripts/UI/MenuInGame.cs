@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class MenuInGame : MonoBehaviour
 {
+    [Header("Buttons")]
+    public Button m_validateButton;
+    [Header("Timer")]
     public Text mTimerText;
     public Slider mSlider;
     private int mSec;
@@ -25,6 +28,9 @@ public class MenuInGame : MonoBehaviour
         mSec = (int)(time % 60f);
         mTimerText.text = mMin.ToString("00") + ":" + mSec.ToString("00");
         mSlider.value = (GameManager.TIMER_MAX - time) / GameManager.TIMER_MAX;
+        
+        // (Dis)activate validate button depending on rocket state
+        m_validateButton.interactable = RocketCraftor.Inst.CanBeValidated();
     }
 
     public void onQuit()
