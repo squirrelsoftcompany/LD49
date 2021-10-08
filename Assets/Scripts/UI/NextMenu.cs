@@ -16,17 +16,16 @@ public class NextMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Set score in the mScoreValue.text()
+        mScoreValue.text = "" + GameManager.Inst.Score;
     }
 
     public void onNextClick()
     {
-        //Do something maybe...
+        GameManager.Inst.BackToStartMenu();
     }
 
     public void onReplay()
     {
-        //Do something maybe...
+        GameManager.Inst.Play();
     }
-
 }

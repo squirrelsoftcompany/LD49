@@ -82,6 +82,13 @@ public class RocketCraftor : MonoBehaviour
         return _currentModules.All(x => x.moduleValidity());
     }
 
+    public int Score()
+    {
+        if (!CanBeValidated()) return 0;
+        if (_currentModules.Count == 0) return 0;
+        return Mathf.RoundToInt(_currentModules.Sum(x => x.Life) / _currentModules.Count) * rocketData.Difficulty();
+    }
+
     public static T RandomGet<T>(List<T> list)
     {
         return list[Random.Range(0, list.Count)];

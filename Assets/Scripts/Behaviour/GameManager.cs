@@ -21,7 +21,6 @@ public class GameManager : MonoBehaviour
         set { mScore = value; }
     }
 
-
     private int mDifficulty;
     public int Difficulty
     {
@@ -47,7 +46,7 @@ public class GameManager : MonoBehaviour
         get => _inst;
     }
 
-    private StartMenu startMenu;
+    private MenuSelector menuSelector;
 
     // Start is called before the first frame update
     void Start()
@@ -55,7 +54,7 @@ public class GameManager : MonoBehaviour
         if (_inst == null) _inst = this;
         mGameState = GameState.eMenuStart;
 
-        startMenu = FindObjectOfType<StartMenu>();
+        menuSelector = FindObjectOfType<MenuSelector>();
     }
 
     // Update is called once per frame
@@ -69,18 +68,20 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                // TODO : Time is over... launch the rocket 
+                // TODO : Time is over... launch the rocket
+                BackToNextMenu();
             }
         }
-        
     }
 
     public void Play()
     {
         mGameState = GameState.eIngame;
+        Score = 0;
         mTimer = TIMER_MAX;
         Fulldisplay();
-        FindObjectOfType<RocketCraftor>().LaunchChangeRocketAnimation();
+        RocketCraftor.Inst.LaunchChangeRocketAnimation();
+        menuSelector.HideTablet();
     }
 
     public void Fulldisplay()
@@ -90,16 +91,33 @@ public class GameManager : MonoBehaviour
 
     public void Validate()
     {
-        //TODO : Calcul score + call next rocket
+        if (RocketCraftor.Inst.CanBeValidated())
+        {
+            Score += RocketCraftor.Inst.Score();
+        }
+        Fulldisplay();
+        RocketCraftor.Inst.LaunchChangeRocketAnimation();
     }
 
-    public void BackToMenu()
+    public void BackToNextMenu()
     {
         mGameState = GameState.eMenuNext;
-        startMenu.ShowMenu();
+        menuSelector.ShowNextMenu();
+        menuSelector.ShowTablet();
         PovManager.Inst.SwitchToMenu();
-        //TODO : Animation tablet
-        //TODO : Move camera
+    }
+
+    public void BackToStartMenu()
+    {
+        GameState previousGameState = mGameState;
+        
+        mGameState = GameState.eMenuStart;
+        menuSelector.ShowStartMenu();
+        if (previousGameState == GameState.eMenuNext)
+        {
+            menuSelector.ShowTablet();
+            PovManager.Inst.SwitchToMenu();
+        }
     }
 
     public float getTimer()

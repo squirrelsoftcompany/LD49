@@ -7,6 +7,7 @@ public class MenuInGame : MonoBehaviour
 {
     [Header("Buttons")]
     public Button m_validateButton;
+    public Button m_invalidateButton;
     [Header("Timer")]
     public Text mTimerText;
     public Slider mSlider;
@@ -30,12 +31,13 @@ public class MenuInGame : MonoBehaviour
         mSlider.value = (GameManager.TIMER_MAX - time) / GameManager.TIMER_MAX;
         
         // (Dis)activate validate button depending on rocket state
-        m_validateButton.interactable = RocketCraftor.Inst.CanBeValidated();
+        m_validateButton.gameObject.SetActive(RocketCraftor.Inst.CanBeValidated());
+        m_invalidateButton.gameObject.SetActive(!RocketCraftor.Inst.CanBeValidated());
     }
 
     public void onQuit()
     {
-        GameManager.Inst.BackToMenu();
+        GameManager.Inst.BackToNextMenu();
     }
 
     public void onFulldisplay()

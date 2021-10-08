@@ -118,6 +118,7 @@ public class ModuleBehavior : MonoBehaviour
     private List<ergolInTank> mErgolStack = new List<ergolInTank>();
     public int mNbPipeConnected = 0;
     private float mLife = 100.0f;
+    public float Life => mLife;
 
     // 3 full slots max. eNull if not used
     public Fuel[] mFillSlots = { Fuel.eNull, Fuel.eNull, Fuel.eNull };
