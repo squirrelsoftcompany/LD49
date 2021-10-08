@@ -330,38 +330,45 @@ public class ModuleBehavior : MonoBehaviour
 
     public bool moduleValidity()
     {
-        bool moduleValid = true;
-
         //Check temp
-        if ( mTemp < mGoalTemp +1 )
+        if ( mTemp > mGoalTemp + 1 ) // 1 unit of error margin
         {
-            moduleValid &= true;
+            return false;
         }
 
         //Check pressure
-        if ( mPressure < mGoalPressure+ 1 )
+        if ( mPressure > mGoalPressure + 1) // 1 unit of error margin
         {
-            moduleValid &= true;
+            return false;
         }
 
         //Check full
-        if(mErgolStack.Count == mGoalErgolStack.Count)
+        if (mErgolStack.Count != mGoalErgolStack.Count) // Check if not the same amount of Ergols
+        {
+            return false;
+        }
+        else
         {
             float currentFuelGoal = 0;
             for ( int i=0; i < mErgolStack.Count; i++)
             {
-                if (mErgolStack[i].ergolType == mGoalErgolStack[i].ergolType)
+                if (mErgolStack[i].ergolType != mGoalErgolStack[i].ergolType)
+                {
+                    return false;
+                }
+                else
                 {
                     currentFuelGoal = (i>0) ? mGoalErgolStack[i].quantity - mGoalErgolStack[i-1].quantity : mGoalErgolStack[i].quantity;
-                    if (mErgolStack[i].quantity < currentFuelGoal + 1 && mErgolStack[i].quantity > currentFuelGoal - 1)
+
+                    if (Mathf.Abs(mErgolStack[i].quantity - currentFuelGoal) > 3) // 3 units of error margin
                     {
-                        moduleValid &= true;
+                        return false;
                     }
                 }
             }
         }
 
-        return moduleValid;
+        return true;
     }
 
     void freezing()
