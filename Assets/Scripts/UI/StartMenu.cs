@@ -35,20 +35,23 @@ public class StartMenu : MonoBehaviour
         animatorTablet.SetTrigger("ShowTablet");
     }
 
-    public void onLevel1Click()
+    public void onLevel1Toggled(bool pToggle)
     {
+        if (! pToggle) return;
         mDifficultySelected = 1;
         //Do something maybe...
     }
 
-    public void onLevel2Click()
+    public void onLevel2Toggled(bool pToggle)
     {
+        if (! pToggle) return;
         mDifficultySelected = 2;
         //Do something maybe...
     }
 
-    public void onLevel3Click()
+    public void onLevel3Toggled(bool pToggle)
     {
+        if (! pToggle) return;
         mDifficultySelected = 3;
         //Do something maybe...
     }
