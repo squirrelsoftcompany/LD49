@@ -13,7 +13,7 @@ public class StartMenu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        onLevel1Toggled(true);
     }
 
     // Update is called once per frame
