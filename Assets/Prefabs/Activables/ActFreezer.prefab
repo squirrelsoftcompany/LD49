@@ -5003,8 +5003,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mParentModule: {fileID: 0}
-  actionCooldown: 0
-  cooldowntimeRemaining: 0
+  actionTime: 5
+  cooldownTime: 5
 --- !u!95 &1301360025
 Animator:
   serializedVersion: 3
