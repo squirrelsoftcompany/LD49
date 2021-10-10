@@ -1559,7 +1559,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &8431408720557842851
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1598,10 +1598,10 @@ MonoBehaviour:
   mTempZeroAngle: -90
   mTempMaxAngle: 0
   mTempNeedle: {fileID: 1389187438201191024}
-  mMinPressure: {r: 1, g: 0.9464972, b: 0.8820755, a: 1}
-  mMaxPressure: {r: 0.7830189, g: 0.55486417, b: 0.19575472, a: 1}
+  mMinPressure: {r: 0.14150941, g: 0.14150941, b: 0.14150941, a: 1}
+  mMaxPressure: {r: 1, g: 0.69877815, b: 0.6084906, a: 1}
   mLimit: {fileID: 21300000, guid: f118b99349a90574ba278101eb69207c, type: 3}
-  mLimitCursor: {fileID: 0}
+  mLimitCursor: {fileID: 21300000, guid: f118b99349a90574ba278101eb69207c, type: 3}
   mE1: {r: 0.5283019, g: 0.09220363, b: 0.09220363, a: 1}
   mE2: {r: 0.14901961, g: 0.7647059, b: 0.09803922, a: 1}
   mE3: {r: 0.10980392, g: 0.10980392, b: 0.7647059, a: 1}
