@@ -10,11 +10,13 @@ public class ActivablePurgeGeneral : ActivablePurge
     public override void Active()
     {
         System.Array.ForEach(FindObjectsOfType<ModuleBehavior>(), x => { x.activePurge(true); if (managePressure) x.activePressureEvacuation(true); });
+        GetComponentInChildren<Animator>()?.SetBool("On", true);
     }
 
     public override void Stop()
     {
         System.Array.ForEach(FindObjectsOfType<ModuleBehavior>(), x => { x.activePurge(false); if (managePressure) x.activePressureEvacuation(false); });
+        GetComponentInChildren<Animator>()?.SetBool("On", false);
     }
 
     public override PovManager.RocketPOV GetRocketPOV()

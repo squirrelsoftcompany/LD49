@@ -31,10 +31,12 @@ public class ActivableFill : ActivableBehaviour
     public override void Active()
     {
         mParentModule.GetComponent<ModuleBehavior>().activeFill(true);
+        GetComponentInChildren<Animator>()?.SetBool("On", true);
     }
 
     public override void Stop()
     {
         mParentModule.GetComponent<ModuleBehavior>().activeFill(false);
+        GetComponentInChildren<Animator>()?.SetBool("On", false);
     }
 }

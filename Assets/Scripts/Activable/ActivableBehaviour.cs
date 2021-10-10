@@ -11,9 +11,6 @@ public class ActivableBehaviour : MonoBehaviour
 
     public ModuleBehavior mParentModule;
 
-    public float actionCooldown = 0.0f;
-    public float cooldowntimeRemaining = 0.0f;
-
     private Outline outlineScript = null;
 
     // Start is called before the first frame update
@@ -27,20 +24,13 @@ public class ActivableBehaviour : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
         
     }
 
     void OnMouseOver()
     {
-        //Leave action if cooldown is not over
-        //if (cooldowntimeRemaining > 0)
-        //{
-        //    cooldowntimeRemaining -= Time.deltaTime;
-        //    return;
-        //}
-
         if (IsActivable())
         {
             if (!isMouseOver)

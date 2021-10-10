@@ -26,10 +26,12 @@ public class ActivablePressure : ActivableBehaviour
     public override void Active()
     {
         mParentModule.GetComponent<ModuleBehavior>().activePressureEvacuation(true);
+        GetComponentInChildren<Animator>()?.SetBool("On", true);
     }
 
     public override void Stop()
     {
         mParentModule.GetComponent<ModuleBehavior>().activePressureEvacuation(false);
+        GetComponentInChildren<Animator>()?.SetBool("On", false);
     }
 }

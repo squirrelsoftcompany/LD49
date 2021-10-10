@@ -31,10 +31,12 @@ public class ActivablePurge : ActivableBehaviour
     public override void Active()
     {
         mParentModule.GetComponent<ModuleBehavior>().activePurge(true);
+        GetComponentInChildren<Animator>()?.SetBool("On", true);
     }
 
     public override void Stop()
     {
         mParentModule.GetComponent<ModuleBehavior>().activePurge(false);
+        GetComponentInChildren<Animator>()?.SetBool("On", false);
     }
 }
