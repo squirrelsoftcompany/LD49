@@ -118,7 +118,7 @@ Material:
     - _RampLevels: 100
     - _ReceiveShadows: 1
     - _SampleGI: 0
-    - _Smoothness: 0.22
+    - _Smoothness: 0.48
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1

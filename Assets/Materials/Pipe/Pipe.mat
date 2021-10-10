@@ -130,7 +130,7 @@ Material:
     - _ReceiveShadows: 1
     - _SampleGI: 0
     - _Shininess: 0
-    - _Smoothness: 0
+    - _Smoothness: 0.09
     - _SmoothnessSource: 0
     - _SmoothnessTextureChannel: 0
     - _SpecSource: 0
@@ -148,5 +148,5 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _HighColor: {r: 2, g: 2, b: 2, a: 0}
     - _LowColor: {r: 0.8408964, g: 0.8408964, b: 0.8408964, a: 0}
-    - _SpecColor: {r: 0.10376824, g: 0.10376824, b: 0.10376824, a: 0}
+    - _SpecColor: {r: 0.10376624, g: 0.10376624, b: 0.10376624, a: 0.09}
   m_BuildTextureStacks: []
