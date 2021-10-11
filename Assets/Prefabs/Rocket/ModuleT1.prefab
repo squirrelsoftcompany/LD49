@@ -140,8 +140,7 @@ MonoBehaviour:
   RocketPOV: 0
   mSoundManager: {fileID: 1669562155627254525}
   mParticuleSystem: {fileID: 3557905810542010133}
-  mGoalPressure: 0
-  mGoalTemp: 0
+  mGoalTemp: 20
   mGoalErgolStack: []
   mMonitor: {fileID: 0}
   mPressureLimit: 100
@@ -241,8 +240,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mParentModule: {fileID: 0}
-  actionCooldown: 0
-  cooldowntimeRemaining: 0
 --- !u!1 &6308940583788661481
 GameObject:
   m_ObjectHideFlags: 0

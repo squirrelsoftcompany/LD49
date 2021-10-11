@@ -100,7 +100,7 @@ public class ModuleBehavior : MonoBehaviour
 
 
     //Goal to valid module
-    public float mGoalPressure;
+    private float mGoalPressure; // Goal is always the max
     public float mGoalTemp;
 
     public List<ergolInTank> mGoalErgolStack;
@@ -158,7 +158,9 @@ public class ModuleBehavior : MonoBehaviour
         emission.enabled = false;
         emission.SetBursts(new ParticleSystem.Burst[] { new ParticleSystem.Burst(0.0f, 0)});
 
-        mMonitor.GetComponent<Monitor>().setModuleGoalInformation(mGoalErgolStack);
+        mMonitor.GetComponent<Monitor>().setModuleGoalInformation(mGoalErgolStack, Mathf.InverseLerp(MIN_TEMP, MAX_TEMP, mGoalTemp) * 100.0f);
+        mGoalPressure = mPressureLimit;
+
     }
 
     public void setGoal(List<ergolInTank> pGoal)
@@ -411,7 +413,10 @@ public class ModuleBehavior : MonoBehaviour
     public void activeFreeze(bool active)
     {
         mActiveFreeze = active;
-        mSoundManagerScript.playFreeze();
+        if(active)
+        {
+            mSoundManagerScript.playFreeze();
+        }
     }
 
     public void activeFill(bool active)

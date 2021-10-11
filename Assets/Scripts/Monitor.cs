@@ -36,6 +36,8 @@ public class Monitor : MonoBehaviour
     // Temp gauge
     public float mTempZeroAngle = -40;
     public float mTempMaxAngle = 200;
+    public float mTempLimit;
+    public GameObject mTempLimitImage;
     public GameObject mTempNeedle;
 
     public Color mMinPressure;
@@ -80,11 +82,17 @@ public class Monitor : MonoBehaviour
     }
 
     
-    public void setModuleGoalInformation(List<ergolInTank> pErgolGoalTank)
+    public void setModuleGoalInformation(List<ergolInTank> pErgolGoalTank, float pTempLimit)
     {
         mErgolLimitsStack = pErgolGoalTank;
+        mTempLimit = pTempLimit;
         if (mErgolLimitsStack != null) UpdateLimitsUI();
         UpdatePressureUI();
+
+        //Set temperature limit sprite
+        float mTempLimitAngle = Mathf.Lerp(mTempZeroAngle, mTempMaxAngle, mTempLimit / 100.0f);
+        Vector3 currentTempLimitRot = mTempLimitImage.GetComponent<RectTransform>().localRotation.eulerAngles;
+        mTempLimitImage.GetComponent<RectTransform>().localRotation = Quaternion.Euler(currentTempLimitRot.x, currentTempLimitRot.y, mTempLimitAngle+90);
     }
 
 
