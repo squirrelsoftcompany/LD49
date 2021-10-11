@@ -84,6 +84,11 @@ public class GameManager : MonoBehaviour
         menuSelector.HideTablet();
     }
 
+    public void GameOver()
+    {
+        RocketCraftor.Inst.LaunchChangeRocketAnimation();
+    }
+
     public void Fulldisplay()
     {
         PovManager.Inst.SwitchToFD();

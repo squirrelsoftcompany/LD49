@@ -262,7 +262,11 @@ public class ModuleBehavior : MonoBehaviour
         }
         else
         {
-            // Explosion I guess..
+            if(mLife > -999)
+            {
+                GameManager.Inst.GameOver();
+                mLife = -1000;
+            }
         }
     }
 
