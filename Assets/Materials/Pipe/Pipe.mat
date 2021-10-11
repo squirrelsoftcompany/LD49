@@ -21,8 +21,8 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Pipe
-  m_Shader: {fileID: 4800000, guid: 8d2bb70cbf9db8d4da26e15b26e74248, type: 3}
-  m_ShaderKeywords: _NORMALMAP _SPECULAR_COLOR
+  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+  m_ShaderKeywords: _ENVIRONMENTREFLECTIONS_OFF _NORMALMAP _SPECULARHIGHLIGHTS_OFF
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -112,7 +112,7 @@ Material:
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _Cull: 2
-    - _Cutoff: 0.5
+    - _Cutoff: 0.379
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 10
@@ -122,7 +122,7 @@ Material:
     - _GlossinessSource: 0
     - _GlossyReflections: 0
     - _LightScalar: 1
-    - _Metallic: 0
+    - _Metallic: 0.491
     - _OcclusionStrength: 1
     - _Parallax: 0.08
     - _QueueOffset: 0
@@ -148,5 +148,5 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _HighColor: {r: 2, g: 2, b: 2, a: 0}
     - _LowColor: {r: 0.8408964, g: 0.8408964, b: 0.8408964, a: 0}
-    - _SpecColor: {r: 0.10376624, g: 0.10376624, b: 0.10376624, a: 0.09}
+    - _SpecColor: {r: 0.103755735, g: 0.103755735, b: 0.103755735, a: 0.09}
   m_BuildTextureStacks: []
